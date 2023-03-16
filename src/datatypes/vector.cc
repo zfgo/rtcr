@@ -42,3 +42,10 @@ inline float dot(const vector &u, const vector &v)
          + u[1] * v[1]
          + u[2] * v[2];
 }
+
+inline float cross(const vector &u, const vector &v)
+{
+    return vector(u[1]*v[2]-e[2]*v[1],
+                  u[2]*v[0]-u[0]*v[2],
+                  u[0]*v[1]-u[1]*v[0]);
+}

@@ -137,8 +137,12 @@ inline vector operator*(const vector &v, float f);
  */
 inline vector operator/(vector v, float f);
 
-/* calculate the dot product of a vector
+/* calculate the dot product of vectors
  */
 inline float dot(const vector &u, const vector &v);
+
+/* calculate the cross product of vectors
+ */
+inline float cross(const vector &u, const vector &v);
 
 #endif /* _VECTOR_H_ */

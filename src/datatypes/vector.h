@@ -85,12 +85,26 @@ class vector
             return *this *= 1 / f;
         }
 
+        /* return the norm of a vector
+         */
+        float norm() const 
+        {
+            return sqrt(norm_squared());
+        }
+
+        /* helper fxn for norm
+         */
+        float norm_squared() const 
+        {
+            return e[0]*e[0] + e[1]*e[1] + e[2]*e[2];
+        }
+
 
     /* member variables
      */
     public: 
         double e[3];
-}
+};
 
 /* add aliases so we can use vec3 for points and colors
  */

@@ -9,14 +9,14 @@ using std::sqrt;
 
 /* TODO
  */
-class vec3 {
+class vector {
     /* member functions
      */
     public:
         /* constructors
          */
-        vec3() : e{0.0, 0.0, 0.0} {}
-        vec3(float e0, float e1, float e2) : e{e0, e1, e2} {}
+        vector() : e{0.0, 0.0, 0.0} {}
+        vector(float e0, float e1, float e2) : e{e0, e1, e2} {}
 
         /* functions to get the x, y, or z parts of the vector
          */
@@ -38,7 +38,8 @@ class vec3 {
 
 /* add aliases so we can use vec3 for points and colors
  */
- using point3 = vec3; // 3D point (x, y, z)
- using color = vec3; // color (r, g, b)
+ using vec3 = vector; // 3D point (x, y, z)
+ using point3 = vector; // 3D point (x, y, z)
+ using color = vector; // color (r, g, b)
 
 #endif /* _VECTOR_H_ */

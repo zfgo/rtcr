@@ -128,9 +128,13 @@ inline vector operator-(const vector &u, const vector &v);
  */
 inline vector operator*(const vector &u, const vector &v);
 
-/* multiply a vector by a constant
+/* multiply a vector by a constant (scalar)
  */
 inline vector operator*(float f, const vector &v);
 inline vector operator*(const vector &v, float f);
+
+/* divide a vector by a scalar
+ */
+inline vector operator/(vector v, float f);
 
 #endif /* _VECTOR_H_ */

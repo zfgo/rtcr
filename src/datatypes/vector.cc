@@ -30,3 +30,8 @@ inline vector operator*(const vector &v, float f)
 {
     return f * v;
 }
+
+inline vector operator/(vector v, float f)
+{
+    return (1 / f) * v;
+}

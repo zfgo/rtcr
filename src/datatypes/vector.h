@@ -143,6 +143,10 @@ inline float dot(const vector &u, const vector &v);
 
 /* calculate the cross product of vectors
  */
-inline float cross(const vector &u, const vector &v);
+inline vector cross(const vector &u, const vector &v);
+
+/* normalize a vector (s.t. it has magnitude of 1)
+ */
+inline vector normalize(vector v);
 
 #endif /* _VECTOR_H_ */

@@ -30,6 +30,13 @@ class vector {
             return e[2];
         }
 
+        /* vector negation
+         */
+        vector operator-() const {
+            return vector(-e[0], -e[1], -e[2]);
+        }
+
+
     /* member variables
      */
     public: 

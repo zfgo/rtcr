@@ -21,26 +21,30 @@ class vector
 
         /* functions to get the x, y, or z parts of the vector
          */
-        double x() const 
+        float x() const 
         {
             return e[0];
         }
-        double y() const 
+
+        float y() const 
         {
             return e[1];
         }
-        double z() const 
+
+        
+        float z() const 
         {
             return e[2];
         }
 
         /* functions to get vector value at index i
          */
-        double operator[](int i) const 
+        float operator[](int i) const 
         {
             return e[i];
         }
-        double& operator[](int i) 
+
+        float& operator[](int i) 
         {
             return e[i];
         }
@@ -52,12 +56,25 @@ class vector
             return vector(-e[0], -e[1], -e[2]);
         }
 
+        /* implementation of the += operator
+         */
         vector& operator+=(const vector &v)
         {
             e[0] += v.e[0];
             e[1] += v.e[1];
             e[2] += v.e[2];
             
+            return *this;
+        }
+        
+        /* implementation of the *= operator for vectors and scalars
+         */
+        vector& operator*=(const float f)
+        {
+            e[0] *= t;
+            e[1] *= t;
+            e[2] *= t;
+
             return *this;
         }
 

@@ -120,4 +120,8 @@ inline std::ostream& operator<<(std::ostream &out, const vector &v);
  */
 inline vector operator+(const vector &u, const vector &v);
 
+/* subtract two vectors from each other
+ */
+inline vector operator-(const vector &u, const vector &v);
+
 #endif /* _VECTOR_H_ */

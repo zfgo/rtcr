@@ -18,6 +18,18 @@ class vec3 {
         vec3() : e{0.0, 0.0, 0.0} {}
         vec3(float e0, float e1, float e2) : e{e0, e1, e2} {}
 
+        /* functions to get the x, y, or z parts of the vector
+         */
+        double x() const {
+            return e[0];
+        }
+        double y() const {
+            return e[1];
+        }
+        double z() const {
+            return e[2];
+        }
+
     /* member variables
      */
     public: 

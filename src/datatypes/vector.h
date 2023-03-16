@@ -7,7 +7,7 @@
 // so we can use sqrt() instead of std::sqrt()
 using std::sqrt;
 
-/* TODO
+/* vector member functions and data members
  */
 class vector 
 {
@@ -111,5 +111,13 @@ class vector
  using vec3 = vector; // 3D point (x, y, z)
  using point3 = vector; // 3D point (x, y, z)
  using color = vector; // color (r, g, b)
+
+/* print a vector to a give stream
+ */
+inline std::ostream& operator<<(std::ostream &out, const vector &v);
+
+/* add two vectors together
+ */
+inline vector operator+(const vector &u, const vector &v);
 
 #endif /* _VECTOR_H_ */

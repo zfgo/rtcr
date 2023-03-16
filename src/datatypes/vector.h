@@ -30,6 +30,15 @@ class vector {
             return e[2];
         }
 
+        /* functions to get vector value at index i
+         */
+        double operator[](int i) const {
+            return e[i];
+        }
+        double& operator[](int i) {
+            return e[i];
+        }
+
         /* vector negation
          */
         vector operator-() const {

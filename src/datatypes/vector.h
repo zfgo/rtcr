@@ -71,11 +71,18 @@ class vector
          */
         vector& operator*=(const float f)
         {
-            e[0] *= t;
-            e[1] *= t;
-            e[2] *= t;
+            e[0] *= f;
+            e[1] *= f;
+            e[2] *= f;
 
             return *this;
+        }
+
+        /* implemenation of the /= operator for vectors and scalars
+         */
+        vector& operator/=(const float f)
+        {
+            return *this *= 1 / f;
         }
 
 

@@ -137,4 +137,8 @@ inline vector operator*(const vector &v, float f);
  */
 inline vector operator/(vector v, float f);
 
+/* calculate the dot product of a vector
+ */
+inline float dot(const vector &u, const vector &v);
+
 #endif /* _VECTOR_H_ */

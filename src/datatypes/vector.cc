@@ -35,3 +35,10 @@ inline vector operator/(vector v, float f)
 {
     return (1 / f) * v;
 }
+
+inline float dot(const vector &u, const vector &v) 
+{
+    return u[0] * v[0]
+         + u[1] * v[1]
+         + u[2] * v[2];
+}

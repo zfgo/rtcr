@@ -124,4 +124,13 @@ inline vector operator+(const vector &u, const vector &v);
  */
 inline vector operator-(const vector &u, const vector &v);
 
+/* multiply two vectors together
+ */
+inline vector operator*(const vector &u, const vector &v);
+
+/* multiply a vector by a constant
+ */
+inline vector operator*(float f, const vector &v);
+inline vector operator*(const vector &v, float f);
+
 #endif /* _VECTOR_H_ */

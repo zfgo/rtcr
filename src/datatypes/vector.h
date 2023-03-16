@@ -10,8 +10,18 @@ using std::sqrt;
 /* TODO
  */
 class vec3 {
+    /* member functions
+     */
     public:
-        // TODO
+        /* constructors
+         */
+        vec3() : e{0.0, 0.0, 0.0} {}
+        vec3(float e0, float e1, float e2) : e{e0, e1, e2} {}
+
+    /* member variables
+     */
+    public: 
+        double e[3];
 }
 
 /* add aliases so we can use vec3 for points and colors

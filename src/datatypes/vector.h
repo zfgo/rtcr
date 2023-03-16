@@ -44,7 +44,7 @@ class vector
             return e[i];
         }
 
-        float& operator[](int i) 
+        float& operator[](int i)
         {
             return e[i];
         }
@@ -103,7 +103,7 @@ class vector
     /* member variables
      */
     public: 
-        double e[3];
+        float e[3];
 };
 
 /* add aliases so we can use vec3 for points and colors

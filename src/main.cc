@@ -1,11 +1,10 @@
+#include "datatypes/color.h"
+#include "datatypes/vector.h"
 #include <iostream>
-
 
 int main(void)
 {
     int i, j;
-    float r, g, b;
-    int ir, ig, ib;
 
     /* set up image dimensions */
     const int image_width = 256;
@@ -22,18 +21,8 @@ int main(void)
         std::cerr << "\rScanlines remaining: " << j << ' ' << std::flush;
 
         for (i = 0; i < image_width; ++i) {
-            r = (float) i / (image_width - 1);
-            g = (float) j / (image_height - 1);
-            b = 0.25;
-
-            /* static_cast<type> is used for when we want to reverse an
-             * implicit conversion. It performs no runtime checks.
-             */
-            ir = static_cast<int>(255.9999 * r);
-            ig = static_cast<int>(255.9999 * g);
-            ib = static_cast<int>(255.9999 * b);
-
-            std::cout << ir << ' ' << ig << ' ' << ib << '\n';
+            color c((float)i/(image_width - 1), (float)j / (image_height - 1), 0.25);
+            write_color(std::cout, c);
         }
     }
 

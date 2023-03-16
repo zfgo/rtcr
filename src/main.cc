@@ -1,6 +1,7 @@
 #include "datatypes/color.h"
 #include "datatypes/vector.h"
 #include <iostream>
+#include <fstream>
 
 int main(void)
 {
@@ -10,8 +11,11 @@ int main(void)
     const int image_width = 256;
     const int image_height = 256;
 
+    /* set up output file */
+    std::ofstream fp("img/out_02.ppm");
+
     /* Simple rendering loop */
-    std::cout << "P3\n" << image_width << ' ' << image_height << "\n255\n";
+    fp << "P3\n" << image_width << ' ' << image_height << "\n255\n";
 
     for (j = image_height-1; j >= 0; --j) {
 
@@ -22,10 +26,12 @@ int main(void)
 
         for (i = 0; i < image_width; ++i) {
             color c((float)i/(image_width - 1), (float)j / (image_height - 1), 0.25);
-            write_color(std::cout, c);
+            write_color(fp, c);
         }
     }
 
+    fp.close();
     std::cerr << "\nDone.\n";
+
     return 0;
 }

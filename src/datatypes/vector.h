@@ -9,40 +9,56 @@ using std::sqrt;
 
 /* TODO
  */
-class vector {
+class vector 
+{
     /* member functions
      */
     public:
         /* constructors
          */
-        vector() : e{0.0, 0.0, 0.0} {}
-        vector(float e0, float e1, float e2) : e{e0, e1, e2} {}
+        vector() : e{0.0, 0.0, 0.0} { }
+        vector(float e0, float e1, float e2) : e{e0, e1, e2} { }
 
         /* functions to get the x, y, or z parts of the vector
          */
-        double x() const {
+        double x() const 
+        {
             return e[0];
         }
-        double y() const {
+        double y() const 
+        {
             return e[1];
         }
-        double z() const {
+        double z() const 
+        {
             return e[2];
         }
 
         /* functions to get vector value at index i
          */
-        double operator[](int i) const {
+        double operator[](int i) const 
+        {
             return e[i];
         }
-        double& operator[](int i) {
+        double& operator[](int i) 
+        {
             return e[i];
         }
 
         /* vector negation
          */
-        vector operator-() const {
+        vector operator-() const 
+        {
             return vector(-e[0], -e[1], -e[2]);
+        }
+
+        vector& operator+=(const vector &v)
+        {
+            e[0] += v.e[0];
+            e[1] += v.e[1];
+            e[2] += v.e[2];
+            
+            return *this;
         }
 
 

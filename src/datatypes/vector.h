@@ -114,39 +114,77 @@ class vector
 
 /* print a vector to a give stream
  */
-inline std::ostream& operator<<(std::ostream &out, const vector &v);
+inline std::ostream& operator<<(std::ostream &out, const vector &v)
+{
+    return out << v.e[0] << ' ' << v.e[1] << ' ' << v.e[2];
+}
 
 /* add two vectors together
  */
-inline vector operator+(const vector &u, const vector &v);
+inline vector operator+(const vector &u, const vector &v)
+{
+    return vector(u[0]+v[0], u[1]+v[1], u[2]+v[2]);
+}
 
 /* subtract two vectors from each other
  */
-inline vector operator-(const vector &u, const vector &v);
+inline vector operator-(const vector &u, const vector &v)
+{
+    return vector(u[0]-v[0], u[1]-v[1], u[2]-v[2]);
+}
 
 /* multiply two vectors together
  */
-inline vector operator*(const vector &u, const vector &v);
+inline vector operator*(const vector &u, const vector &v)
+{
+    return vector(u[0]*v[0], u[1]*v[1], u[2]*v[2]);
+}
+
 
 /* multiply a vector by a constant (scalar)
  */
-inline vector operator*(float f, const vector &v);
-inline vector operator*(const vector &v, float f);
+inline vector operator*(float f, const vector &v)
+{
+    return vector(f*v[0], f*v[1], f*v[2]);
+}
+
+/* multiply a vector by a constant (scalar)
+ */
+inline vector operator*(const vector &v, float f)
+{
+    return f * v;
+}
 
 /* divide a vector by a scalar
  */
-inline vector operator/(vector v, float f);
+inline vector operator/(vector v, float f)
+{
+    return (1 / f) * v;
+}
 
 /* calculate the dot product of vectors
  */
-inline float dot(const vector &u, const vector &v);
+inline float dot(const vector &u, const vector &v) 
+{
+    return u[0] * v[0]
+         + u[1] * v[1]
+         + u[2] * v[2];
+}
 
 /* calculate the cross product of vectors
  */
-inline vector cross(const vector &u, const vector &v);
+inline vector cross(const vector &u, const vector &v)
+{
+    return vector(u[1]*v[2]-u[2]*v[1],
+                  u[2]*v[0]-u[0]*v[2],
+                  u[0]*v[1]-u[1]*v[0]);
+}
 
 /* normalize a vector (s.t. it has magnitude of 1)
  */
-inline vector normalize(vector v);
+inline vector normalize(vector v)
+{
+    return v / v.norm();
+}
 
 #endif /* _VECTOR_H_ */

@@ -1,4 +1,5 @@
 #include "include.h"
+#include "datatypes/camera.h"
 #include "datatypes/color.h"
 #include "datatypes/hittable_list.h"
 #include "datatypes/sphere.h"
@@ -24,7 +25,7 @@ color ray_color(const ray& r, const hittable& world)
 
 int main(void)
 {
-    int i, j;
+    int i, j, s;
 
     /* set up Image 
      * 
@@ -33,6 +34,7 @@ int main(void)
     const float aspect_ratio = 16.0 / 9.0; // same aspect ration as a 1080p or 1440p screen
     const int image_width = 1920;
     const int image_height = static_cast<int>(image_width / aspect_ratio);
+    const int samples_per_pix = 100;
 
     /* set up World */
     hittable_list world;
@@ -40,36 +42,35 @@ int main(void)
     world.add(make_shared<sphere>(point3(0.0, -100.5, -1), 100.0));
 
     /* set up Camera */
-    float viewport_height = 2.0;
-    float viewport_width = aspect_ratio * viewport_height;
-    float focal_len = 1.0;
-
-    point3 origin = point3(0.0, 0.0, 0.0);
-    vec3 horizontal = vec3(viewport_width, 0.0, 0.0);
-    vec3 vertical = vec3(0.0, viewport_height, 0.0);
-    vector lower_left_corner = origin - horizontal / 2.0 - vertical / 2.0 - vec3(0.0, 0.0, focal_len);
+    camera cam;
 
     /* set up output file */
-    std::ofstream fp("img/out_06.ppm");
+    std::ofstream fp("img/out_07.ppm");
 
     /* Simple rendering loop */
     fp << "P3\n" << image_width << ' ' << image_height << "\n255\n";
 
     for (j = image_height-1; j >= 0; --j) {
 
-        /* \r denotes a carriage return
+        /* \r denotes a carriage return,
          * std::flush flushes the output sequence os
          */
         std::cerr << "\rScanlines remaining: " << j << ' ' << std::flush;
 
         for (i = 0; i < image_width; ++i) {
-            float u = (float)i / (image_width - 1);
-            float v = (float)j / (image_height - 1);
-            
-            ray r(origin, lower_left_corner + u * horizontal + v * vertical - origin);
+            color c(0.0, 0.0, 0.0);
 
-            color c = ray_color(r, world);
-            write_color(fp, c);
+            for (s = 0; s < samples_per_pix; ++s) {
+                float u = ((float)i + random_float()) / (image_width - 1);
+                float v = ((float)j + random_float()) / (image_height - 1);
+                
+                // get the ray from the camera
+                ray r = cam.get_ray(u, v);
+
+                // accumulate color
+                c += ray_color(r, world);
+            }
+            write_color(fp, c, samples_per_pix);
         }
     }
 

@@ -65,14 +65,14 @@ int main(void)
 
     world.add(make_shared<sphere>(point3( 0.0, -100.5, -1.0), 100.0, material_grnd));
     world.add(make_shared<sphere>(point3( 0.0,    0.0, -1.0),   0.5, material_cntr));
-    world.add(make_shared<sphere>(point3(-1.0,    0.0, -1.0),   0.5, material_left));
+    world.add(make_shared<sphere>(point3(-1.0,    0.0, -1.0),   -0.4, material_left));
     world.add(make_shared<sphere>(point3( 1.0,    0.0, -1.0),   0.5, material_right));
 
     /* set up Camera */
     camera cam;
 
     /* set up output file */
-    std::ofstream fp("img/out_18.ppm");
+    std::ofstream fp("img/out_19.ppm");
 
     /* Simple rendering loop */
     fp << "P3\n" << image_width << ' ' << image_height << "\n255\n";

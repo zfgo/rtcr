@@ -7,36 +7,36 @@ class camera
 {
     public:
         /* constructor
-         * 
-         * vfov is the vertical field of view in degrees, and aspect 
-         * ratio is the aspect ratio
          */
         camera(
-            point3 lookfrom, 
-            point3 lookat, 
-            vector vup, 
-            float vfov, 
-            float aspect_ratio
+            point3 lookfrom,        // point where the camera is looking from
+            point3 lookat,          // point the camera is looking at 
+            vector vup,             // up vector
+            float vfov,             // vertical field of view in deg
+            float aspect_ratio,
+            float aperture,
+            float focus_dist
         ) {
             float theta, h, 
                   viewport_height,
                   viewport_width;
-            vector w, u, v;
 
             theta = deg_to_rad(vfov);
             h = tan(theta / 2.0);
             viewport_height = 2.0 * h;
             viewport_width = aspect_ratio * viewport_height;
-
+            
             // creat w, u, v vectors (like in P1E)
             w = normalize(lookfrom - lookat);
             u = normalize(cross(vup, w));
             v = cross(w, u);
             
             origin = lookfrom;
-            horizontal = viewport_width * u;
-            vertical = viewport_height * v;
-            lower_left_corner = origin - horizontal / 2.0 - vertical / 2.0 - w;
+            horizontal = focus_dist * viewport_width * u;
+            vertical = focus_dist * viewport_height * v;
+            lower_left_corner = origin - horizontal / 2.0 - vertical / 2.0 - focus_dist * w;
+
+            lens_radius = aperture / 2;
         }
 
         /* get a ray that shoots from the camera and goes through the
@@ -44,6 +44,9 @@ class camera
          */
         ray get_ray(float u, float v) const
         {
+            vec3 rd = lens_radius * random_in_unit_disk();
+            vec3 offset = u * rd.x() + v * rd.y();
+
             return ray(origin, lower_left_corner + u * horizontal + v * vertical - origin);
         }
 
@@ -52,6 +55,8 @@ class camera
         point3 lower_left_corner;
         vec3 horizontal;
         vec3 vertical;
+        vector u, v, w;
+        float lens_radius;
 };
 
 #endif /* _CAMERA_H_ */

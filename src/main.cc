@@ -1,56 +1,25 @@
+#include "include.h"
 #include "datatypes/color.h"
-#include "datatypes/ray.h"
-#include "datatypes/vector.h"
+#include "datatypes/hittable_list.h"
+#include "datatypes/sphere.h"
 
 #include <iostream>
 #include <fstream>
 
-/* this fxn calculates whether or not a ray hits a sphere, and returns 
- * a time, t, value that is the time at which the ray hits the sphere
- * 
- * There is a good description of the usefulness of discriminants as
- * well as the math going on here in "The Ray Tracer Challenge" by 
- * Jamis Buck in Chapter 5.
+/* render each pixel by calculating its color
  */
-float hit_sphere(const point3& center, double radius, const ray& r)
+color ray_color(const ray& r, const hittable& world)
 {
-    float a, half_b, c, discriminant, t;
-
-    vec3 ray_to_sphere = r.origin() - center;
-    
-    a = r.direction().norm_squared();
-    half_b = dot(ray_to_sphere, r.direction());
-    c = ray_to_sphere.norm_squared() - radius * radius;
-    
-    discriminant = half_b * half_b - a * c;
-
-    if (discriminant < 0) {
-        return -1.0;
-    }
-    else {
-        t = (-half_b - sqrt(discriminant)) / a;
-
-        return t;
-    }
-}
-
-/* calculate the color of a ray
- */
-color ray_color(const ray& r)
-{
+    hit_record rec;
     float t;
 
-    t = hit_sphere(point3(0.0, 0.0, -1.0), 0.5, r);
-
-    if (t > 0.0) {
-        vec3 N = normalize(r.at(t) - vec3(0.0, 0.0, -1.0));
-        return 0.5 * color(N.x()+1.0, N.y()+1.0, N.z()+1.0);
+    if (world.hit(r, 0.0, infinity, rec)) {
+        return 0.5 * (rec.normal + color(1.0, 1.0, 1.0));
     }
 
     vec3 unit_dir = normalize(r.direction());
     t = 0.5 * (unit_dir.y() + 1.0);
-
-    return (1.0 - t) * color(1.0, 1.0, 1.0) + t * color(0.5, 0.7, 1.0);
+    return (1.0 - t) * color(1.0, 1.0, 1.0) + t * color(0.5, 0.7, 0.1);
 }
 
 int main(void)
@@ -65,6 +34,11 @@ int main(void)
     const int image_width = 1920;
     const int image_height = static_cast<int>(image_width / aspect_ratio);
 
+    /* set up World */
+    hittable_list world;
+    world.add(make_shared<sphere>(point3(0.0, 0.0, -1.0), 0.5));
+    world.add(make_shared<sphere>(point3(0.0, -100.5, -1), 100.0));
+
     /* set up Camera */
     float viewport_height = 2.0;
     float viewport_width = aspect_ratio * viewport_height;
@@ -76,7 +50,7 @@ int main(void)
     vector lower_left_corner = origin - horizontal / 2.0 - vertical / 2.0 - vec3(0.0, 0.0, focal_len);
 
     /* set up output file */
-    std::ofstream fp("img/out_05.ppm");
+    std::ofstream fp("img/out_06.ppm");
 
     /* Simple rendering loop */
     fp << "P3\n" << image_width << ' ' << image_height << "\n255\n";
@@ -94,7 +68,7 @@ int main(void)
             
             ray r(origin, lower_left_corner + u * horizontal + v * vertical - origin);
 
-            color c = ray_color(r);
+            color c = ray_color(r, world);
             write_color(fp, c);
         }
     }

@@ -111,6 +111,14 @@ class vector
         {
             return vector(random_float(min, max), random_float(min, max), random_float(min, max));
         }
+
+        /* return true if a vector is very close to 0 in all dimensions
+         */
+        bool near_zero() const
+        {
+            const float s = 1e-8;
+            return (fabs(e[0]) < s) && (fabs(e[1]) < s) && (fabs(e[2]) < s);
+        }
         
     /* member variables
      */

@@ -7,6 +7,10 @@
 #include <vector>
 
 
+/* shared_ptr<type> is a pointer to some alloc'd type with ``reference
+ * counting semantics''. Once the count goes to 0, the object is 
+ * deleted.
+ */
 using std::shared_ptr;
 using std::make_shared;
 

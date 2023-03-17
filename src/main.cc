@@ -1,15 +1,29 @@
 #include "datatypes/color.h"
+#include "datatypes/ray.h"
 #include "datatypes/vector.h"
+
 #include <iostream>
 #include <fstream>
+
+color ray_color(const ray& r)
+{
+    vec3 unit_dir = normalize(r.direction());
+    float t = 0.5 * (unit_dir.y() + 1.0);
+
+    return (1.0 - t) * color(1.0, 1.0, 1.0) + t * color(0.5, 0.7, 1.0);
+}
 
 int main(void)
 {
     int i, j;
 
-    /* set up image dimensions */
-    const int image_width = 256;
-    const int image_height = 256;
+    /* set up Image 
+     * 
+     * As is, we should have a 1920x1080 pixel image
+     */
+    const float aspect_ration = 16.0 / 9.0; // same aspect ration as a 1080p or 1440p screen
+    const int image_width = 1920;
+    const int image_height = static_cast<int>(image_width / aspect_ratio);
 
     /* set up output file */
     std::ofstream fp("img/out_02.ppm");

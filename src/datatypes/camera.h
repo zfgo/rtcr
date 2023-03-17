@@ -6,12 +6,23 @@
 class camera
 {
     public:
-        /* constructor */
-        camera() { 
-            float aspect_ratio = 16.0 / 9.0;
-            float viewport_height = 2.0;
-            float viewport_width = aspect_ratio * viewport_height;
-            float focal_len = 1.0;
+        /* constructor
+         * 
+         * vfov is the vertical field of view in degrees, and aspect 
+         * ratio is the aspect ratio
+         */
+        camera(float vfov, float aspect_ratio) {
+            float theta, h, 
+                  viewport_height,
+                  viewport_width,
+                  focal_len;
+
+            theta = degrees_to_radians(vfov);
+            h = tan(theta / 2.0);
+            viewport_height = 2.0 * h;
+            viewport_width = aspect_ratio * viewport_height;
+            
+            focal_len = 1.0;
 
             origin = point3(0.0, 0.0, 0.0);
             horizontal = vec3(viewport_width, 0.0, 0.0);

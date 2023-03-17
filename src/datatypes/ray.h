@@ -14,13 +14,13 @@ class ray {
          */
         ray() {}
 
-        ray(const point3& origin, const vec3& direction) : origin(origin), dir(direction) {}
+        ray(const point3& origin, const vec3& direction) : orig(origin), dir(direction) {}
 
         /* getters for the class variables
          */
         point3 origin() const
         {
-            return origin;
+            return orig;
         }
 
         vec3 direction() const 
@@ -32,13 +32,13 @@ class ray {
          */
         point3 at(float t) const
         {
-            return origin + t * dir;
+            return orig + (t * dir);
         }
     
     /* public member variables
      */
     public:
-        point3 origin;
+        point3 orig;
         vec3 dir;
 
 };

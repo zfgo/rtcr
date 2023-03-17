@@ -5,9 +5,12 @@
 #include <iostream>
 #include <fstream>
 
-bool hit_sphere(const point3& center, double radius, const ray& r)
+/* this fxn calculates whether or not a ray hits a sphere, and returns 
+ * a time, t, value that is the time at which the ray hits the sphere
+ */
+float hit_sphere(const point3& center, double radius, const ray& r)
 {
-    float a, b, c, discriminant;
+    float a, b, c, discriminant, t;
 
     vec3 ray_to_sphere = r.origin() - center;
     
@@ -17,17 +20,31 @@ bool hit_sphere(const point3& center, double radius, const ray& r)
     
     discriminant = b * b - 4.0 * a * c;
 
-    return (discriminant > 0);
+    if (discriminant < 0) {
+        return -1.0;
+    }
+    else {
+        t = (-b - sqrt(discriminant)) / (2.0 * a);
+
+        return t;
+    }
 }
 
+/* calculate the color of a ray
+ */
 color ray_color(const ray& r)
 {
-    if (hit_sphere(point3(0.0, 0.0, -1.0), 0.5, r)) {
-        // if the ray hits the sphere, return red, else return the blue gradient
-        return color(1.0, 0.0, 0.0);
+    float t;
+
+    t = hit_sphere(point3(0.0, 0.0, -1.0), 0.5, r);
+
+    if (t > 0.0) {
+        vec3 N = normalize(r.at(t) - vec3(0.0, 0.0, -1.0));
+        return 0.5 * color(N.x()+1.0, N.y()+1.0, N.z()+1.0);
     }
+
     vec3 unit_dir = normalize(r.direction());
-    float t = 0.5 * (unit_dir.y() + 1.0);
+    t = 0.5 * (unit_dir.y() + 1.0);
 
     return (1.0 - t) * color(1.0, 1.0, 1.0) + t * color(0.5, 0.7, 1.0);
 }
@@ -55,7 +72,7 @@ int main(void)
     vector lower_left_corner = origin - horizontal / 2.0 - vertical / 2.0 - vec3(0.0, 0.0, focal_len);
 
     /* set up output file */
-    std::ofstream fp("img/out_04.ppm");
+    std::ofstream fp("img/out_05.ppm");
 
     /* Simple rendering loop */
     fp << "P3\n" << image_width << ' ' << image_height << "\n255\n";

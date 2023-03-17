@@ -7,6 +7,10 @@
 
 /* this fxn calculates whether or not a ray hits a sphere, and returns 
  * a time, t, value that is the time at which the ray hits the sphere
+ * 
+ * There is a good description of the usefulness of discriminants as
+ * well as the math going on here in "The Ray Tracer Challenge" by 
+ * Jamis Buck in Chapter 5.
  */
 float hit_sphere(const point3& center, double radius, const ray& r)
 {

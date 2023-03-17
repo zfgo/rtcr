@@ -60,8 +60,8 @@ int main(void)
 
     auto material_grnd = make_shared<lambertian>(color(0.1, 0.8, 0.2));
     auto material_cntr = make_shared<lambertian>(color(0.8, 0.3, 0.3));
-    auto material_left = make_shared<metal>(color(0.8, 0.8, 0.8));
-    auto material_right = make_shared<metal>(color(0.8, 0.6, 0.2));
+    auto material_left = make_shared<metal>(color(0.8, 0.8, 0.8), 0.3);
+    auto material_right = make_shared<metal>(color(0.8, 0.6, 0.2), 1.0);
 
     world.add(make_shared<sphere>(point3( 0.0, -100.5, -1.0), 100.0, material_grnd));
     world.add(make_shared<sphere>(point3( 0.0,    0.0, -1.0),   0.5, material_cntr));
@@ -72,7 +72,7 @@ int main(void)
     camera cam;
 
     /* set up output file */
-    std::ofstream fp("img/out_13.ppm");
+    std::ofstream fp("img/out_14.ppm");
 
     /* Simple rendering loop */
     fp << "P3\n" << image_width << ' ' << image_height << "\n255\n";

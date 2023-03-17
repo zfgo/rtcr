@@ -2,6 +2,7 @@
 #define _HITTABLE_H_
 
 #include "datatypes/ray.h"
+#include "datatypes/vector.h"
 
 /* structure for each hit record (where a ray bounces off of an object.
  * The hit point, normal at that point, and time need to be recorded.
@@ -22,6 +23,7 @@ struct hit_record {
     {
         front_face = dot(r.direction(), outward_normal) < 0;
         normal = front_face ? outward_normal : -outward_normal;
+    };
 };
 
 /* Because we have many rays bouncing off of many objects, we keep 

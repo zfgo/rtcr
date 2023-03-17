@@ -26,7 +26,7 @@ class hittable_list : public hittable
         hittable_list() { }
         hittable_list(shared_ptr<hittable> object)
         {
-            add(object)
+            add(object);
         }
 
         /* clear the vector of hittables

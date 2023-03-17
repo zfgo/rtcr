@@ -41,6 +41,64 @@ color ray_color(const ray& r, const hittable& world, int depth)
     return (1.0 - t) * color(1.0, 1.0, 1.0) + t * color(0.5, 0.7, 1.0);
 }
 
+hittable_list random_scene()
+{
+    int a, b;
+    hittable_list world;
+
+    auto ground_mat = make_shared<lambertian>(color(0.5, 0.5, 0.5));
+    world.add(make_shared<sphere>(point3(0.0, -1000.0, 0.0), 1000.0, ground_mat));
+
+    for (a = -11; a < 11; ++a) {
+        for (b = -11; b < 11; ++b) {
+            float choose_mat = random_float();
+            point3 center((float)a+0.9*random_float(), 0.2, b+0.9*random_float());
+
+            if ((center - point3(4.0, 0.2, 0.0)).norm() > 0.9) {
+                shared_ptr<material> sphere_mat;
+
+                if (choose_mat < 0.8) {
+                    // choose a diffuse material
+                    float albedo = color::random_vec() * color::random_vec();
+                    sphere_mat = make_shared<lambertian>(albedo);
+                    world.add(make_shared<sphere>(center, 0.2, sphere_mat));
+                }
+                else if (choose_mat < 0.95) {
+                    // choose a metal
+                    float albedo = color::random_vec(0.5, 1.0);
+                    float fuzz = random_float(0.0, 0.5);
+                    sphere_mat = make_shared<metal>(albedo, fuzz);
+                    world.add(make_shared<sphere>(center, 0.2, sphere_mat));
+                }
+                else {
+                    // choose a dielectric (glass)
+                    sphere_mat = make_shared<dielectric>(1.5);
+                    world.add(make_shared<sphere>(center, 0.2, sphere_mat));
+                }
+            }
+        }
+    }
+
+    auto mat1 = make_shared<dielectric>(1.5);
+    world.add(make_shared<sphere>(point3(0.0, 1.0, 0.0), 1.0, mat1));
+
+    auto mat2 = make_shared<lambertian>(color(0.4, 0.2, 0.1));
+    world.add(make_shared<sphere>(point3(-4.0, 1.0, 0.0), 1.0, mat2));
+
+    auto mat3 = make_shared<dielectric>(color(0.8, 0.2, 0.1), 0.0);
+    world.add(make_shared<sphere>(point3(4.0, 1.0, 0.0), 1.0, mat3));
+
+    return world;
+}
+
+hittable_list four_spheres_scene()
+{
+    // TODO
+    hittable_list world;
+
+    return world;
+}
+
 int main(void)
 {
     int i, j, s;
@@ -49,37 +107,35 @@ int main(void)
      * 
      * As is, we should have a 1920x1080 pixel image
      */
-    const float aspect_ratio = 16.0 / 9.0; // same aspect ration as a 1080p or 1440p screen
+    const float aspect_ratio = 3.0 / 2.0; // same aspect ration as a 1080p or 1440p screen
     const int image_width = 1920;
     const int image_height = static_cast<int>(image_width / aspect_ratio);
-    const int samples_per_pix = 100;
-    const int max_depth = 16;
+    const int samples_per_pix = 200;
+    const int max_depth = 32;
 
     /* set up World */
-    hittable_list world;
-
-    auto material_grnd = make_shared<lambertian>(color(0.1, 0.8, 0.2));
-    auto material_cntr = make_shared<lambertian>(color(0.1, 0.2, 0.5));
-    auto material_left = make_shared<dielectric>(1.5);
-    auto material_right = make_shared<metal>(color(0.8, 0.6, 0.2), 0.0);
-
-    world.add(make_shared<sphere>(point3( 0.0, -100.5, -1.0), 100.0, material_grnd));
-    world.add(make_shared<sphere>(point3( 0.0,    0.0, -1.0),   0.5, material_cntr));
-    world.add(make_shared<sphere>(point3(-1.0,    0.0, -1.0),   0.5, material_left));
-    world.add(make_shared<sphere>(point3(-1.0,    0.0, -1.0),  -0.45, material_left));
-    world.add(make_shared<sphere>(point3( 1.0,    0.0, -1.0),   0.5, material_right));
+    hittable_list world = random_scene();
 
     /* set up Camera */
+    point3 lookfrom(13.0, 2.0, 3.0);
+    point3 lookat(0.0, 0.0, 0.0);
+    vec3 vup(0.0, 1.0, 0.0);
+    float dist_to_focus = 10.0;
+    float aperture = 0.2;
+    float vfov = 20.0;
+
     camera cam(
-        point3(-2.0, 2.0, 1.0), 
-        point3(0.0, 0.0, -1.0), 
-        vec3(0.0, 1.0, 0.0), 
-        20.0, 
-        aspect_ratio
+        lookfrom,
+        lookat,
+        vup,
+        vfov,
+        aspect_ratio,
+        aperture,
+        dist_to_focus
     );
 
     /* set up output file */
-    std::ofstream fp("img/out_22.ppm");
+    std::ofstream fp("img/out_24.ppm");
 
     /* Simple rendering loop */
     fp << "P3\n" << image_width << ' ' << image_height << "\n255\n";

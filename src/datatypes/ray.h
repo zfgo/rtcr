@@ -3,7 +3,8 @@
 
 #include "datatypes/vector.h"
 
-/* TODO
+/* the ray class, consisting of a origin (where the ray began it's life),
+ * and a direction, the direction towards which the ray is pointing.
  */
 class ray {
     /* public member functions of the ray class
@@ -26,6 +27,19 @@ class ray {
         {
             return dir;
         }
+
+        /* find the position of a ray at some time t
+         */
+        point3 at(float t) const
+        {
+            return origin + t * dir;
+        }
+    
+    /* public member variables
+     */
+    public:
+        point3 origin;
+        vec3 dir;
 
 };
 

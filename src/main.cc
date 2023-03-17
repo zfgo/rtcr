@@ -2,6 +2,7 @@
 #include "datatypes/camera.h"
 #include "datatypes/color.h"
 #include "datatypes/hittable_list.h"
+#include "datatypes/material.h"
 #include "datatypes/sphere.h"
 
 #include <iostream>
@@ -23,13 +24,16 @@ color ray_color(const ray& r, const hittable& world, int depth)
     // errors. This also helps smooth the image, and reduce some of the
     // graininess
     if (world.hit(r, 0.001, infinity, rec)) {
-        // random scattering, adding a random normalized vector. This
-        // gives the property of higher ray scattering closer to the
-        // normal, but with a more uniform distribution
-        point3 target = rec.p + random_in_hemisphere(rec.normal);
+        ray scattered;
+        color attenuation;
 
-        // decrement the depth in the recursive call
-        return 0.5 * ray_color(ray(rec.p, target-rec.p), world, depth-1);
+        if (rec.mat_ptr->scatter(r, rec, attenuation, scattered)) {
+            // random scattering, adding a random normalized vector. This
+            // gives the property of higher ray scattering closer to the
+            // normal, but with a more uniform distribution
+            return attenuation * ray_color(scattered, world, depth-1);
+        }
+        return color(0.0, 0.0, 0.0);
     }
 
     vec3 unit_dir = normalize(r.direction());
@@ -53,14 +57,22 @@ int main(void)
 
     /* set up World */
     hittable_list world;
-    world.add(make_shared<sphere>(point3(0.0, 0.0, -1.0), 0.5));
-    world.add(make_shared<sphere>(point3(0.0, -100.5, -1), 100.0));
+
+    auto material_grnd = make_shared<lambertian>(color(0.1, 0.8, 0.2));
+    auto material_cntr = make_shared<lambertian>(color(0.8, 0.3, 0.3));
+    auto material_left = make_shared<metal>(color(0.8, 0.8, 0.8));
+    auto material_right = make_shared<metal>(color(0.8, 0.6, 0.2));
+
+    world.add(make_shared<sphere>(point3(0.0, -100.5, -1.0), 100.0, material_grnd));
+    world.add(make_shared<sphere>(point3(0.0, 0.0, -1.0), 0.5, material_cntr));
+    world.add(make_shared<sphere>(point3(-1.0, 0.0, -1.0), 100.0, material_left));
+    world.add(make_shared<sphere>(point3(1.0, 0.0, -1.0), 100.0, material_right));
 
     /* set up Camera */
     camera cam;
 
     /* set up output file */
-    std::ofstream fp("img/out_12.ppm");
+    std::ofstream fp("img/out_13.ppm");
 
     /* Simple rendering loop */
     fp << "P3\n" << image_width << ' ' << image_height << "\n255\n";

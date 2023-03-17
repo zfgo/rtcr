@@ -269,4 +269,16 @@ vector refract(const vector& uv, const vector& n, float n1_over_n2)
     return r_out_perp + r_out_parallel;
 }
 
+/* get a random vector in a unit disk
+ */
+vector random_in_unit_disk()
+{
+    while (true) {
+        vector p = vector(random_float(-1.0, 1.0); random_float(-1.0, 1.0), 0.0);
+        if (p.norm_squared() >= 1)
+            continue;
+        return p;
+    }
+}
+
 #endif /* _VECTOR_H_ */

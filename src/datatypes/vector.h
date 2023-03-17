@@ -6,6 +6,7 @@
 
 // so we can use sqrt() instead of std::sqrt()
 using std::sqrt;
+using std::abs;
 
 /* vector member functions and data members
  */
@@ -128,8 +129,8 @@ class vector
 
 /* add aliases so we can use vec3 for points and colors
  */
- using vec3 = vector; // 3D point (x, y, z)
- using point3 = vector; // 3D point (x, y, z)
+ using vec3 = vector; // 3D vector (x, y, z) components
+ using point3 = vector; // 3D point (x, y, z) positions
  using color = vector; // color (r, g, b)
 
 /* print a vector to a give stream

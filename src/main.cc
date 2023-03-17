@@ -10,13 +10,13 @@
  */
 float hit_sphere(const point3& center, double radius, const ray& r)
 {
-    float a, b, c, discriminant, t;
+    float a, half_b, c, discriminant, t;
 
     vec3 ray_to_sphere = r.origin() - center;
     
-    a = dot(r.direction(), r.direction());
-    b = 2.0 * dot(ray_to_sphere, r.direction());
-    c = dot(ray_to_sphere, ray_to_sphere) - radius * radius;
+    a = r.direction().length_squared();
+    half_b = dot(ray_to_sphere, r.direction());
+    c = ray_to_sphere.length_squared() - radius * radius;
     
     discriminant = b * b - 4.0 * a * c;
 
@@ -24,7 +24,7 @@ float hit_sphere(const point3& center, double radius, const ray& r)
         return -1.0;
     }
     else {
-        t = (-b - sqrt(discriminant)) / (2.0 * a);
+        t = (-half_b - sqrt(discriminant)) / a;
 
         return t;
     }

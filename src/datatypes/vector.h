@@ -274,7 +274,7 @@ vector refract(const vector& uv, const vector& n, float n1_over_n2)
 vector random_in_unit_disk()
 {
     while (true) {
-        vector p = vector(random_float(-1.0, 1.0); random_float(-1.0, 1.0), 0.0);
+        vector p = vector(random_float(-1.0, 1.0), random_float(-1.0, 1.0), 0.0);
         if (p.norm_squared() >= 1)
             continue;
         return p;

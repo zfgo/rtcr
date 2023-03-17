@@ -42,12 +42,15 @@ class camera
         /* get a ray that shoots from the camera and goes through the
          * pixel located at image[u][v]
          */
-        ray get_ray(float u, float v) const
+        ray get_ray(float i, float j) const
         {
             vec3 rd = lens_radius * random_in_unit_disk();
             vec3 offset = u * rd.x() + v * rd.y();
 
-            return ray(origin, lower_left_corner + u * horizontal + v * vertical - origin);
+            return ray(
+                origin + offset, 
+                lower_left_corner + i * horizontal + j * vertical - origin - offset
+            );
         }
 
     private:

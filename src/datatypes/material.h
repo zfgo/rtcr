@@ -73,4 +73,15 @@ class metal : public material
         float fuzz; 
 };
 
+/* class for dielectrics (materials that refract light)
+ */
+class dielectric : public material
+{
+    public:
+        dielectric() {} // TODO
+
+    public:
+        float ir; // refractive index
+};
+
 #endif /* _MATERIAL_H_ */

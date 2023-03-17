@@ -176,7 +176,7 @@ inline vector operator*(const vector &v, float f)
  */
 inline vector operator/(vector v, float f)
 {
-    return (1 / f) * v;
+    return (1.0 / f) * v;
 }
 
 /* calculate the dot product of vectors
@@ -206,11 +206,11 @@ inline vector normalize(vector v)
 
 /* return a random vector in a unit sphere
  */
-vector random_in_unity_sphere()
+vector random_in_unit_sphere()
 {
     while (true) {
         vector p = vector::random(-1.0, 1.0);
-        if (p.norm_sqaured() >= 1.0)
+        if (p.norm_squared() >= 1.0)
             continue;
         return p;
     }

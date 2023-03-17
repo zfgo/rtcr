@@ -53,7 +53,7 @@ class metal : public material
 {
     public:
         /* constructor */
-        metal(const color& a) : albedo(a) { }
+        metal(const color& a, float f) : albedo(a), fuzz(f < 1.0 ? f : 1.0) { }
 
         /* metallic surfaces reflect light using the `reflect()` fxn
          * defined in vector.h
@@ -61,13 +61,16 @@ class metal : public material
         virtual bool scatter(const ray& r_in, const hit_record& rec, color& attenuation, ray& scattered) const override 
         {
             vector reflected = reflect(normalize(r_in.direction()), rec.normal);
-            scattered = ray(rec.p, reflected);
+            // add fuzz to  create "fuzzy" reflections (i.e., a rough
+            // metal ball (not a perfect mirror))
+            scattered = ray(rec.p, reflected+fuzz*random_in_unit_sphere());
             attenuation = albedo;
             return (dot(scattered.direction(), rec.normal) > 0);
         }
 
     public:
         color albedo;
+        float fuzz; 
 };
 
 #endif /* _MATERIAL_H_ */

@@ -1,7 +1,7 @@
 #ifndef _COLOR_H_
 #define _COLOR_H_
 
-#include "datatypes/vector.h"
+#include "include.h"
 #include <iostream>
 
 /* write a color to a stream

@@ -39,6 +39,7 @@ class lambertian : public material
             }
             scattered = ray(rec.p, scatter_dir);
             attenuation = albedo;
+
             return true;
         }
 
@@ -65,6 +66,7 @@ class metal : public material
             // metal ball (not a perfect mirror))
             scattered = ray(rec.p, reflected+fuzz*random_in_unit_sphere());
             attenuation = albedo;
+
             return (dot(scattered.direction(), rec.normal) > 0);
         }
 
@@ -73,13 +75,29 @@ class metal : public material
         float fuzz; 
 };
 
-/* class for dielectrics (materials that refract light)
+/* class for dielectrics (materials that refract light), inheriting from
+ * the material parent class
  */
 class dielectric : public material
 {
     public:
-        dielectric() {} // TODO
+        /* constructor */
+        dielectric(float refractive_ind) : ir(refractive_ind) { }
 
+        /* dielectrics refract light using the `refract()` fxn 
+         * defined in vector.h
+         */
+        virtual bool scatter(const ray& r_in, const hit_record& rec, color& attenuation, ray& scattered) const override 
+        {
+            attenuation = color(1.0, 1.0, 1.0);
+            float refraction_ratio = rec.front_face ? (1.0 / ir) : ir;
+
+            vector unit_dir = normalize(r_in.direction());
+            vector refracted = refract(unit_dir, rec.normal, refraction_ration);
+
+            return true;
+        }
+        
     public:
         float ir; // refractive index
 };

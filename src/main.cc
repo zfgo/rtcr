@@ -52,27 +52,25 @@ int main(void)
     const float aspect_ratio = 16.0 / 9.0; // same aspect ration as a 1080p or 1440p screen
     const int image_width = 1920;
     const int image_height = static_cast<int>(image_width / aspect_ratio);
+    std::cout << image_height << '\n';
     const int samples_per_pix = 100;
     const int max_depth = 16;
 
     /* set up World */
+    float R = cos(pi / 4.0);
     hittable_list world;
 
-    auto material_grnd = make_shared<lambertian>(color(0.1, 0.8, 0.2));
-    auto material_cntr = make_shared<lambertian>(color(0.1, 0.2, 0.5));
-    auto material_left = make_shared<dielectric>(1.5);
-    auto material_right = make_shared<metal>(color(0.8, 0.6, 0.2), 1.0);
+    auto material_left = make_shared<lambertian>(color(0.0, 0.0, 1.0));
+    auto material_right = make_shared<lambertian>(color(1.0, 0.0, 0.0));
 
-    world.add(make_shared<sphere>(point3( 0.0, -100.5, -1.0), 100.0, material_grnd));
-    world.add(make_shared<sphere>(point3( 0.0,    0.0, -1.0),   0.5, material_cntr));
-    world.add(make_shared<sphere>(point3(-1.0,    0.0, -1.0),   -0.4, material_left));
-    world.add(make_shared<sphere>(point3( 1.0,    0.0, -1.0),   0.5, material_right));
+    world.add(make_shared<sphere>(point3(-R, 0.0, -1.0),  R, material_left));
+    world.add(make_shared<sphere>(point3(-R, 0.0, -1.0), R, material_right));
 
     /* set up Camera */
-    camera cam;
+    camera cam(90.0, aspect_ratio);
 
     /* set up output file */
-    std::ofstream fp("img/out_19.ppm");
+    std::ofstream fp("img/out_20.ppm");
 
     /* Simple rendering loop */
     fp << "P3\n" << image_width << ' ' << image_height << "\n255\n";

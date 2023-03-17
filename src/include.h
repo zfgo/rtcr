@@ -4,9 +4,10 @@
 #include "datatypes/ray.h"
 #include "datatypes/vector.h"
 
-#include <cmath>
-#include <limits>
-#include <memory>
+#include <cmath>        // sqrt, math fxns
+#include <cstdlib>      // random numbers
+#include <limits>       // infinity
+#include <memory>       // shared_ptr and make_shared
 
 using std::shared_ptr;
 using std::make_shared;
@@ -15,9 +16,25 @@ using std::sqrt;
 const float infinity = std::numeric_limits<float>::infinity();
 const float pi = 3.141592653589793;
 
+/* convert degrees to radians
+ */
 inline double deg_to_rad(float deg)
 {
     return deg * pi / 180.0;
+}
+
+/* return a random real number x s.t. 0 <= x < 1
+ */
+inline float random_float()
+{
+    return rand() / (RAND_MAX + 1.0);
+}
+
+/* return a random real number x s.t. min <= x < max
+ */
+inline float random_float(float min, float max)
+{
+    return min + (max - min) * random_float();
 }
 
 #endif /* _INCLUDE_H_ */

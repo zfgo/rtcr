@@ -23,7 +23,10 @@ color ray_color(const ray& r, const hittable& world, int depth)
     // errors. This also helps smooth the image, and reduce some of the
     // graininess
     if (world.hit(r, 0.001, infinity, rec)) {
-        point3 target = rec.p + rec.normal + random_in_unit_sphere(); // random scattering
+        // random scattering, adding a random normalized vector. This
+        // gives the property of higher ray scattering closer to the
+        // normal, but with a more uniform distribution
+        point3 target = rec.p + rec.normal + random_unit_vector();
 
         // decrement the depth in the recursive call
         return 0.5 * ray_color(ray(rec.p, target-rec.p), world, depth-1);
@@ -57,7 +60,7 @@ int main(void)
     camera cam;
 
     /* set up output file */
-    std::ofstream fp("img/out_10.ppm");
+    std::ofstream fp("img/out_11.ppm");
 
     /* Simple rendering loop */
     fp << "P3\n" << image_width << ' ' << image_height << "\n255\n";

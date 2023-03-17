@@ -13,7 +13,19 @@ class ray {
          */
         ray() {}
 
-        ray(const point3& origin, const vector& direction) : origin(origin), dir(direction) {}
+        ray(const point3& origin, const vec3& direction) : origin(origin), dir(direction) {}
+
+        /* getters for the class variables
+         */
+        point3 origin() const
+        {
+            return origin;
+        }
+
+        vec3 direction() const 
+        {
+            return dir;
+        }
 
 };
 

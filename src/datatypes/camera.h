@@ -17,7 +17,7 @@ class camera
                   viewport_width,
                   focal_len;
 
-            theta = degrees_to_radians(vfov);
+            theta = deg_to_rad(vfov);
             h = tan(theta / 2.0);
             viewport_height = 2.0 * h;
             viewport_width = aspect_ratio * viewport_height;

@@ -47,4 +47,27 @@ class hittable_list : public hittable
         std::vector<shared_ptr<hittable>> objects;
 };
 
+/* implementation of hit, inherited from hittable.h
+ * 
+ * Loop through every object in the hittable list. For each object, 
+ * check if the ray hits that object, and check if that hit was the
+ * closest hit to the camera(?). If so, then update the hit record.
+ */
+bool hittable_list::hit(const ray& r, float t_min, float t_max, hit_record& rec) const
+{
+    hit_record tmp;
+    bool if_hit = false;
+    float cur_closest = t_max;
+    
+    for (const auto& obj : objects) {
+        if (obj->hit(r, t_min, cur_closest, tmp)) {
+            if_hit = true;
+            cur_closest = tmp.t;
+            rec = tmp;
+        }
+    }
+
+    return if_hit;
+}
+
 #endif /* _HITTABLE_LIST_H_ */

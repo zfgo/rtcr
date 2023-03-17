@@ -89,13 +89,33 @@ class dielectric : public material
          */
         virtual bool scatter(const ray& r_in, const hit_record& rec, color& attenuation, ray& scattered) const override 
         {
+            float refraction_ratio,
+                  cos_theta, 
+                  cin_theta;
+            bool cannot_refract;
+            vector dir;
+
             attenuation = color(1.0, 1.0, 1.0);
-            float refraction_ratio = rec.front_face ? (1.0 / ir) : ir;
+            refraction_ratio = rec.front_face ? (1.0 / ir) : ir;
 
             vector unit_dir = normalize(r_in.direction());
-            vector refracted = refract(unit_dir, rec.normal, refraction_ratio);
+            cos_theta = fmin(dot(-unit_dir, rec.normal), 1.0);
+            sin_theta = sqrt(1.0 - cost_theta * cos_theta);
 
-            scattered = ray(rec.p, refracted);
+            /* a ray can not refract if it is inside denser material 
+             * and the angle of incidence is beyond a certain angle. In
+             * this case, the ray can only reflect
+             */
+            cannot_refract = refraction_ratio * sin_theta > 1.0;
+
+            if (cannot_refract) {
+                dir = reflect(unit_dir, rec.normal);
+            }
+            else {
+                dir = refract(unit_dir, rec.normal, refraction_ratio);
+            }
+
+            scattered = ray(rec.p, dir);
 
             return true;
         }

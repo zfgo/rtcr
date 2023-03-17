@@ -19,7 +19,7 @@ color ray_color(const ray& r, const hittable& world)
 
     vec3 unit_dir = normalize(r.direction());
     t = 0.5 * (unit_dir.y() + 1.0);
-    return (1.0 - t) * color(1.0, 1.0, 1.0) + t * color(0.5, 0.7, 0.1);
+    return (1.0 - t) * color(1.0, 1.0, 1.0) + t * color(0.5, 0.7, 1.0);
 }
 
 int main(void)

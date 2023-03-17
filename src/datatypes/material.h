@@ -104,11 +104,12 @@ class dielectric : public material
 
             /* a ray can not refract if it is inside denser material 
              * and the angle of incidence is beyond a certain angle. In
-             * this case, the ray can only reflect
+             * this case, the ray can only reflect (This is called 
+             * Total Internal Reflection)
              */
             cannot_refract = refraction_ratio * sin_theta > 1.0;
 
-            if (cannot_refract) {
+            if (cannot_refract || reflectance(cos_theta, refraction_ratio) > random_float()) {
                 dir = reflect(unit_dir, rec.normal);
             }
             else {
@@ -122,6 +123,18 @@ class dielectric : public material
         
     public:
         float ir; // refractive index
+
+    private:
+        /* private function that approximates reflectance using the 
+         * Schlick approximation
+         */
+        static float reflectance(float cos_theta, float refractive_ind)
+        {
+            float r0 = (1.0 - refractive_ind) / (1.0 + refractive_ind);
+            r0 = r0 * r0;
+
+            return r0 + (1.0 - r0) * pow((1.0 - cos_theta), 5.0);
+        }
 };
 
 #endif /* _MATERIAL_H_ */

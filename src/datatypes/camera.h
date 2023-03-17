@@ -11,23 +11,33 @@ class camera
          * vfov is the vertical field of view in degrees, and aspect 
          * ratio is the aspect ratio
          */
-        camera(float vfov, float aspect_ratio) {
+        camera(
+            point3 lookfrom, 
+            point3 lookat, 
+            vector vup, 
+            float vfov, 
+            float aspect_ratio
+        ) {
             float theta, h, 
                   viewport_height,
                   viewport_width,
                   focal_len;
+            vector w, u, v;
 
             theta = deg_to_rad(vfov);
             h = tan(theta / 2.0);
             viewport_height = 2.0 * h;
             viewport_width = aspect_ratio * viewport_height;
-            
-            focal_len = 1.0;
 
-            origin = point3(0.0, 0.0, 0.0);
-            horizontal = vec3(viewport_width, 0.0, 0.0);
-            vertical = vec3(0.0, viewport_height, 0.0);
-            lower_left_corner = origin - horizontal / 2.0 - vertical / 2.0 - vec3(0.0, 0.0, focal_len);
+            // creat w, u, v vectors (like in P1E)
+            w = normalize(lookfrom - lookat);
+            u = normalize(cross(vup, w));
+            v = cross(w, u);
+            
+            origin = lookfrom;
+            horizontal = viewport_width * u;
+            vertical = viewport_height * v;
+            lower_left_corner = origin - horizontal / 2.0 - vertical / 2.0 - w;
         }
 
         /* get a ray that shoots from the camera and goes through the

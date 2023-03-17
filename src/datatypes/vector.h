@@ -251,4 +251,20 @@ vector reflect(const vector& v, const vector& n)
     return v - 2.0 * dot(v, n)* n;
 }
 
+/* calculate the refaction vector
+ * 
+ * This is based on snell's law (see the wikipedia article for deets
+ * or section 10.2 in raytracing.github.io)o
+ * 
+ * n1_over_n2 is the quotient of the refractive indices, n1/n2
+ */
+vector refract(const vector& uv, const vector* n, float n1_over_n2)
+{
+    float cos_theta = fmin(dot(-uv, n), 1.0);
+    vector r_out_perp = n1_over_n2 * (uv + cost_theta * n);
+    vector r_out_parallel = -sqrt(fabs(1.0 - r_out_perp.norm_squared())) * n;
+
+    return r_out_perp + r_out_parallel;
+}
+
 #endif /* _VECTOR_H_ */

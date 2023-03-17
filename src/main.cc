@@ -15,7 +15,8 @@ color ray_color(const ray& r, const hittable& world)
     float t;
 
     if (world.hit(r, 0.0, infinity, rec)) {
-        return 0.5 * (rec.normal + color(1.0, 1.0, 1.0));
+        point3 target = rec.p + rec.normal + random_in_unit_sphere(); // random scattering
+        return 0.5 * ray_color(ray(rec.p, target-rec.p), world);
     }
 
     vec3 unit_dir = normalize(r.direction());

@@ -55,7 +55,7 @@ int main(void)
     vector lower_left_corner = origin - horizontal / 2.0 - vertical / 2.0 - vec3(0.0, 0.0, focal_len);
 
     /* set up output file */
-    std::ofstream fp("img/out_03.ppm");
+    std::ofstream fp("img/out_04.ppm");
 
     /* Simple rendering loop */
     fp << "P3\n" << image_width << ' ' << image_height << "\n255\n";

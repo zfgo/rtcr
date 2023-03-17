@@ -74,12 +74,12 @@ int main(void)
         point3(-2.0, 2.0, 1.0), 
         point3(0.0, 0.0, -1.0), 
         vec3(0.0, 1.0, 0.0), 
-        90.0, 
+        20.0, 
         aspect_ratio
     );
 
     /* set up output file */
-    std::ofstream fp("img/out_21.ppm");
+    std::ofstream fp("img/out_22.ppm");
 
     /* Simple rendering loop */
     fp << "P3\n" << image_width << ' ' << image_height << "\n255\n";

@@ -46,9 +46,9 @@ bool sphere::hit(const ray& r, float t_min, float t_max, hit_record& rec) const
     // calculate discriminant
     vec3 ray_to_sphere = r.origin() - center;
     
-    a = r.direction().length_squared();
+    a = r.direction().norm_squared();
     half_b = dot(ray_to_sphere, r.direction());
-    c = ray_to_sphere.length_squared() - radius * radius;
+    c = ray_to_sphere.norm_squared() - radius * radius;
     
     discriminant = half_b * half_b - a * c;
 

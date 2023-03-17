@@ -56,21 +56,27 @@ int main(void)
     const int max_depth = 16;
 
     /* set up World */
-    float R = cos(pi / 4.0);
     hittable_list world;
 
     auto material_grnd = make_shared<lambertian>(color(0.1, 0.8, 0.2));
     auto material_cntr = make_shared<lambertian>(color(0.1, 0.2, 0.5));
     auto material_left = make_shared<dielectric>(1.5);
-    auto material_right = make_shared<metal>(color(0.8, 0.6, 0.2), 1.0);
+    auto material_right = make_shared<metal>(color(0.8, 0.6, 0.2), 0.0);
 
     world.add(make_shared<sphere>(point3( 0.0, -100.5, -1.0), 100.0, material_grnd));
     world.add(make_shared<sphere>(point3( 0.0,    0.0, -1.0),   0.5, material_cntr));
     world.add(make_shared<sphere>(point3(-1.0,    0.0, -1.0),   0.5, material_left));
+    world.add(make_shared<sphere>(point3(-1.0,    0.0, -1.0),  -0.45, material_left));
     world.add(make_shared<sphere>(point3( 1.0,    0.0, -1.0),   0.5, material_right));
 
     /* set up Camera */
-    camera cam(90.0, aspect_ratio);
+    camera cam(
+        point3(-2.0, 2.0, 1.0), 
+        point3(0.0, 0.0, -1.0), 
+        vec3(0.0, 1.0, 0.0), 
+        90.0, 
+        aspect_ratio
+    );
 
     /* set up output file */
     std::ofstream fp("img/out_20.ppm");

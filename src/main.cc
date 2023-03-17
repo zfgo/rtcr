@@ -22,7 +22,7 @@ float hit_sphere(const point3& center, double radius, const ray& r)
     half_b = dot(ray_to_sphere, r.direction());
     c = ray_to_sphere.length_squared() - radius * radius;
     
-    discriminant = b * b - 4.0 * a * c;
+    discriminant = half_b * half_b - a * c;
 
     if (discriminant < 0) {
         return -1.0;

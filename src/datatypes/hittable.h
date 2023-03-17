@@ -10,6 +10,18 @@ struct hit_record {
     point3 p;
     vec3 normal;
     float t;
+    bool front_face;
+
+    /* when we have a ray that hits an object, we need to know where
+     * that ray bounces to, but some rays bounce around the insides of
+     * objects (e.g., a glass ball).
+     * 
+     * This function allows us to calculate inside and outside hits
+     */
+    inline void set_face_normal(const ray& r, const vec3& outward_normal)
+    {
+        front_face = dot(r.direction(), outward_normal) < 0;
+        normal = front_face ? outward_normal : -outward_normal;
 };
 
 /* Because we have many rays bouncing off of many objects, we keep 

@@ -1,9 +1,6 @@
 #ifndef _INCLUDE_H_
 #define _INCLUDE_H_
 
-#include "datatypes/ray.h"
-#include "datatypes/vector.h"
-
 #include <cmath>        // sqrt, math fxns
 #include <cstdlib>      // random numbers
 #include <limits>       // infinity
@@ -47,5 +44,11 @@ inline float clamp(float x, float min, float max)
         return max;
     return x;
 }
+
+/* include other files at the end, so that utility fxns are already
+ * defined
+ */
+#include "datatypes/ray.h"
+#include "datatypes/vector.h"
 
 #endif /* _INCLUDE_H_ */

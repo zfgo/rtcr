@@ -211,4 +211,12 @@ vector random_in_unit_sphere()
     }
 }
 
+/* return a random vector in the unit sphere that has been normalized
+ * (i.e., it has a norm = 1)
+ */
+vector random_unit_vector()
+{
+    return normalize_vector(random_in_unit_sphere());
+}
+
 #endif /* _VECTOR_H_ */

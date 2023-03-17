@@ -13,6 +13,9 @@ class material
         virtual bool scatter(const ray& r_in, const hit_record& rec, color& attenuation, ray& scattered) const = 0;
 };
 
+/* class for diffuse lambertian surfaces, inheriting from the material
+ * parent class
+ */
 class lambertian : public material
 {
     public:
@@ -38,6 +41,21 @@ class lambertian : public material
             attenuation = albedo;
             return true;
         }
+
+    public:
+        color albedo;
+};
+
+/* class for metallic reflective surfaces, inheriting from the material
+ * parent class
+ */
+class metal : public material
+{
+    public:
+        // TODO
+
+    public:
+        color albedo;
 };
 
 #endif /* _MATERIAL_H_ */

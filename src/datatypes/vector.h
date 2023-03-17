@@ -216,7 +216,7 @@ vector random_in_unit_sphere()
  */
 vector random_unit_vector()
 {
-    return normalize_vector(random_in_unit_sphere());
+    return normalize(random_in_unit_sphere());
 }
 
 #endif /* _VECTOR_H_ */

@@ -37,4 +37,15 @@ inline float random_float(float min, float max)
     return min + (max - min) * random_float();
 }
 
+/* ``clamp'' a value x between a minimum and a maximum
+ */
+inline float clamp(float x, float min, float max)
+{
+    if (x < min)
+        return min;
+    if (x > max)
+        return max;
+    return x;
+}
+
 #endif /* _INCLUDE_H_ */

@@ -12,8 +12,8 @@ class sphere : public hittable
     public:
         /* constructors 
          */
-        sphere() {}
-        sphere(point3 cen, float r) : center(cen), radius(r) {};
+        sphere() { }
+        sphere(point3 cen, float r) : center(cen), radius(r) { };
 
         /* inherited fxn from the hittable class 
          */

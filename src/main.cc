@@ -110,18 +110,18 @@ int main(void)
     const float aspect_ratio = 3.0 / 2.0; // same aspect ration as a 1080p or 1440p screen
     const int image_width = 1920;
     const int image_height = static_cast<int>(image_width / aspect_ratio);
-    const int samples_per_pix = 200;
-    const int max_depth = 32;
+    const int samples_per_pix = 256;
+    const int max_depth = 16;
 
     /* set up World */
     hittable_list world = random_scene();
 
     /* set up Camera */
-    point3 lookfrom(13.0, 2.0, 3.0);
+    point3 lookfrom(13.0, 3.0, 3.0);
     point3 lookat(0.0, 0.0, 0.0);
     vec3 vup(0.0, 1.0, 0.0);
     float dist_to_focus = 10.0;
-    float aperture = 0.2;
+    float aperture = 0.0;
     float vfov = 20.0;
 
     camera cam(
@@ -135,7 +135,7 @@ int main(void)
     );
 
     /* set up output file */
-    std::ofstream fp("img/out_24.ppm");
+    std::ofstream fp("img/out_25.ppm");
 
     /* Simple rendering loop */
     fp << "P3\n" << image_width << ' ' << image_height << "\n255\n";

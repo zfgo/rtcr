@@ -59,13 +59,13 @@ hittable_list random_scene()
 
                 if (choose_mat < 0.8) {
                     // choose a diffuse material
-                    float albedo = color::random_vec() * color::random_vec();
+                    color albedo = color::random_vec() * color::random_vec();
                     sphere_mat = make_shared<lambertian>(albedo);
                     world.add(make_shared<sphere>(center, 0.2, sphere_mat));
                 }
                 else if (choose_mat < 0.95) {
                     // choose a metal
-                    float albedo = color::random_vec(0.5, 1.0);
+                    color albedo = color::random_vec(0.5, 1.0);
                     float fuzz = random_float(0.0, 0.5);
                     sphere_mat = make_shared<metal>(albedo, fuzz);
                     world.add(make_shared<sphere>(center, 0.2, sphere_mat));
@@ -85,7 +85,7 @@ hittable_list random_scene()
     auto mat2 = make_shared<lambertian>(color(0.4, 0.2, 0.1));
     world.add(make_shared<sphere>(point3(-4.0, 1.0, 0.0), 1.0, mat2));
 
-    auto mat3 = make_shared<dielectric>(color(0.8, 0.2, 0.1), 0.0);
+    auto mat3 = make_shared<metal>(color(0.8, 0.2, 0.1), 0.0);
     world.add(make_shared<sphere>(point3(4.0, 1.0, 0.0), 1.0, mat3));
 
     return world;

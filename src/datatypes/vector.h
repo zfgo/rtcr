@@ -1,6 +1,8 @@
 #ifndef _VECTOR_H_
 #define _VECTOR_H_
 
+#include "include.h"
+
 #include <cmath>
 #include <iostream>
 
@@ -99,6 +101,21 @@ class vector
             return e[0]*e[0] + e[1]*e[1] + e[2]*e[2];
         }
 
+        /* return a random vector with 0 <= x, y, z < 1
+         */
+        inline static vector random()
+        {
+            return vector(random_float(), random_float(), random_float());
+        }
+
+        /* return a random vector with min <= x, y, z, < max
+         */
+        inline static vector random(float min, float max)
+        {
+            return vector(random_float(min, max), random_float(min, max), random_float(min, max));
+        }
+
+
 
     /* member variables
      */
@@ -185,6 +202,18 @@ inline vector cross(const vector &u, const vector &v)
 inline vector normalize(vector v)
 {
     return v / v.norm();
+}
+
+/* return a random vector in a unit sphere
+ */
+vector random_in_unity_sphere()
+{
+    while (true) {
+        vector p = vector::random(-1.0, 1.0);
+        if (p.norm_sqaured() >= 1.0)
+            continue;
+        return p;
+    }
 }
 
 #endif /* _VECTOR_H_ */

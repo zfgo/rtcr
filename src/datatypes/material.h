@@ -91,7 +91,7 @@ class dielectric : public material
         {
             float refraction_ratio,
                   cos_theta, 
-                  cin_theta;
+                  sin_theta;
             bool cannot_refract;
             vector dir;
 
@@ -100,7 +100,7 @@ class dielectric : public material
 
             vector unit_dir = normalize(r_in.direction());
             cos_theta = fmin(dot(-unit_dir, rec.normal), 1.0);
-            sin_theta = sqrt(1.0 - cost_theta * cos_theta);
+            sin_theta = sqrt(1.0 - cos_theta * cos_theta);
 
             /* a ray can not refract if it is inside denser material 
              * and the angle of incidence is beyond a certain angle. In

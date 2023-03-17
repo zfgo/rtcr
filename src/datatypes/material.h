@@ -52,7 +52,19 @@ class lambertian : public material
 class metal : public material
 {
     public:
-        // TODO
+        /* constructor */
+        metal(const color& a) : albedo(a) { }
+
+        /* metallic surfaces reflect light using the `reflect()` fxn
+         * defined in vector.h
+         */
+        virtual bool scatter(const ray& r_in, const hit_record& rec, color& attenuation, ray& scattered) const override 
+        {
+            vector reflected = reflect(normalize(r_in.direction()), rec.normal);
+            scattered = ray(rec.p, reflected);
+            attenuation = albedo;
+            return (dot(scattered.direction(), rec.normal) > 0);
+        }
 
     public:
         color albedo;

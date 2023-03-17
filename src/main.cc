@@ -9,14 +9,21 @@
 
 /* render each pixel by calculating its color
  */
-color ray_color(const ray& r, const hittable& world)
+color ray_color(const ray& r, const hittable& world, int depth)
 {
     hit_record rec;
     float t;
 
+    // base case, where depth = 0 (bounce limit has been reached)
+    if (depth <= 0) {
+        return color(0.0, 0.0, 0.0);
+    }
+
     if (world.hit(r, 0.0, infinity, rec)) {
         point3 target = rec.p + rec.normal + random_in_unit_sphere(); // random scattering
-        return 0.5 * ray_color(ray(rec.p, target-rec.p), world);
+
+        // decrement the depth in the recursive call
+        return 0.5 * ray_color(ray(rec.p, target-rec.p), world, depth-1);
     }
 
     vec3 unit_dir = normalize(r.direction());
@@ -36,6 +43,7 @@ int main(void)
     const int image_width = 1920;
     const int image_height = static_cast<int>(image_width / aspect_ratio);
     const int samples_per_pix = 100;
+    const int max_depth = 16;
 
     /* set up World */
     hittable_list world;
@@ -46,7 +54,7 @@ int main(void)
     camera cam;
 
     /* set up output file */
-    std::ofstream fp("img/out_07.ppm");
+    std::ofstream fp("img/out_08.ppm");
 
     /* Simple rendering loop */
     fp << "P3\n" << image_width << ' ' << image_height << "\n255\n";
@@ -69,7 +77,7 @@ int main(void)
                 ray r = cam.get_ray(u, v);
 
                 // accumulate color
-                c += ray_color(r, world);
+                c += ray_color(r, world, max_depth);
             }
             write_color(fp, c, samples_per_pix);
         }

@@ -215,6 +215,7 @@ vector random_in_unit_sphere()
         vector p = vector::random_vec(-1.0, 1.0);
         if (p.norm_squared() >= 1.0)
             continue;
+
         return p;
     }
 }
@@ -256,7 +257,7 @@ vector reflect(const vector& v, const vector& n)
  * This is based on snell's law (see the wikipedia article for deets
  * or section 10.2 in raytracing.github.io)o
  * 
- * n1_over_n2 is the quotient of the refractive indices, n1/n2
+ * n1_over_n2 is the ratio of the refractive indices, n1/n2
  */
 vector refract(const vector& uv, const vector* n, float n1_over_n2)
 {

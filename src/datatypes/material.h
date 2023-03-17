@@ -93,7 +93,9 @@ class dielectric : public material
             float refraction_ratio = rec.front_face ? (1.0 / ir) : ir;
 
             vector unit_dir = normalize(r_in.direction());
-            vector refracted = refract(unit_dir, rec.normal, refraction_ration);
+            vector refracted = refract(unit_dir, rec.normal, refraction_ratio);
+
+            scattered = ray(rec.p, refracted);
 
             return true;
         }

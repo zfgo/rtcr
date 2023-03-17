@@ -72,7 +72,7 @@ int main(void)
     camera cam;
 
     /* set up output file */
-    std::ofstream fp("img/out_17.ppm");
+    std::ofstream fp("img/out_18.ppm");
 
     /* Simple rendering loop */
     fp << "P3\n" << image_width << ' ' << image_height << "\n255\n";

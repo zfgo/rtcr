@@ -45,7 +45,7 @@ class hittable_list : public hittable
 
         /* inherited fxn from the hittable class 
          */
-        virtual bool hit(const ray& r, float t_min, float t_max, hit_record* rec) const override;
+        virtual bool hit(const ray& r, float t_min, float t_max, hit_record& rec) const override;
 
     public:
         std::vector<shared_ptr<hittable>> objects;

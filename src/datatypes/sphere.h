@@ -17,7 +17,7 @@ class sphere : public hittable
 
         /* inherited fxn from the hittable class 
          */
-        virtual bool hit(const ray& r, float t_min, float t_max, hit_record* rec) const override;
+        virtual bool hit(const ray& r, float t_min, float t_max, hit_record& rec) const override;
 
     public:
         point3 center;
@@ -38,7 +38,6 @@ bool sphere::hit(const ray& r, float t_min, float t_max, hit_record& rec) const
         half_b, 
         c, 
         discriminant, 
-        t,
         root,
         sqrt_disc;
 
@@ -56,6 +55,7 @@ bool sphere::hit(const ray& r, float t_min, float t_max, hit_record& rec) const
     }
 
     // if the discriminant > 0, then we need to find the nearest root
+    sqrt_disc = sqrt(discriminant);
     root = (-half_b - sqrt_disc) / a;
 
     // the root needs to be within an ``acceptable range''

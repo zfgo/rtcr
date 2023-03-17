@@ -19,7 +19,10 @@ color ray_color(const ray& r, const hittable& world, int depth)
         return color(0.0, 0.0, 0.0);
     }
 
-    if (world.hit(r, 0.0, infinity, rec)) {
+    // use 0.001 instead of 0.0 to add "tolerance" to floating point
+    // errors. This also helps smooth the image, and reduce some of the
+    // graininess
+    if (world.hit(r, 0.001, infinity, rec)) {
         point3 target = rec.p + rec.normal + random_in_unit_sphere(); // random scattering
 
         // decrement the depth in the recursive call
@@ -54,7 +57,7 @@ int main(void)
     camera cam;
 
     /* set up output file */
-    std::ofstream fp("img/out_09.ppm");
+    std::ofstream fp("img/out_10.ppm");
 
     /* Simple rendering loop */
     fp << "P3\n" << image_width << ' ' << image_height << "\n255\n";

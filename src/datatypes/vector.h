@@ -242,4 +242,13 @@ vector random_in_hemisphere(const vector& normal)
     }
 }
 
+/* calculate the reflection vector
+ * 
+ * This is exactly the same reflection equation we used in class
+ */
+vector reflect(const vector& v, const vector& n)
+{
+    return v - 2.0 * dot(v, n)* n;
+}
+
 #endif /* _VECTOR_H_ */

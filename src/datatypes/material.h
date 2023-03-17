@@ -15,4 +15,9 @@ class material
         ) const = 0;
 };
 
+class lambertian : public material
+{
+
+};
+
 #endif /* _MATERIAL_H_ */

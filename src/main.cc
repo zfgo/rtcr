@@ -5,6 +5,21 @@
 #include <iostream>
 #include <fstream>
 
+bool hit_sphere(const point3& center, double radius, const ray& r)
+{
+    float a, b, c, discriminant;
+
+    vec3 ray_to_sphere = r.origin() - center;
+    
+    a = dot(r.direction(), r.direction());
+    b = 2.0 * dot(ray_to_sphere, r.direction());
+    c = dot(ray_to_sphere, ray_to_sphere) - radius * radius;
+    
+    discriminant = b * b - 4.0 * a * c;
+
+    return (discriminant > 0);
+}
+
 color ray_color(const ray& r)
 {
     vec3 unit_dir = normalize(r.direction());

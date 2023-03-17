@@ -20,8 +20,7 @@ class camera
         ) {
             float theta, h, 
                   viewport_height,
-                  viewport_width,
-                  focal_len;
+                  viewport_width;
             vector w, u, v;
 
             theta = deg_to_rad(vfov);

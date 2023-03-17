@@ -59,7 +59,7 @@ int main(void)
     hittable_list world;
 
     auto material_grnd = make_shared<lambertian>(color(0.1, 0.8, 0.2));
-    auto material_cntr = make_shared<dielectric>(1.5);
+    auto material_cntr = make_shared<lambertian>(color(0.1, 0.2, 0.5));
     auto material_left = make_shared<dielectric>(1.5);
     auto material_right = make_shared<metal>(color(0.8, 0.6, 0.2), 1.0);
 
@@ -72,7 +72,7 @@ int main(void)
     camera cam;
 
     /* set up output file */
-    std::ofstream fp("img/out_15.ppm");
+    std::ofstream fp("img/out_17.ppm");
 
     /* Simple rendering loop */
     fp << "P3\n" << image_width << ' ' << image_height << "\n255\n";

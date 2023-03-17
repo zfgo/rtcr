@@ -1,3 +1,4 @@
+#include "include.h"
 #include "datatypes/color.h"
 
  void write_color(std::ostream &out, color c, int samples_per_pix)

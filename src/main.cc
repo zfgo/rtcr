@@ -21,12 +21,22 @@ int main(void)
      * 
      * As is, we should have a 1920x1080 pixel image
      */
-    const float aspect_ration = 16.0 / 9.0; // same aspect ration as a 1080p or 1440p screen
+    const float aspect_ratio = 16.0 / 9.0; // same aspect ration as a 1080p or 1440p screen
     const int image_width = 1920;
     const int image_height = static_cast<int>(image_width / aspect_ratio);
 
+    /* set up Camera */
+    float viewport_height = 2.0;
+    float viewport_width = aspect_ratio * viewport_height;
+    float focal_len = 1.0;
+
+    point3 origin = point3(0.0, 0.0, 0.0);
+    vec3 horizontal = vec3(viewport_width, 0.0, 0.0);
+    vec3 vertical = vec3(0.0, viewport_height, 0.0);
+    vector lower_left_corner = origin - horizontal / 2.0 - vertical / 2.0 - vec3(0.0, 0.0, focal_len);
+
     /* set up output file */
-    std::ofstream fp("img/out_02.ppm");
+    std::ofstream fp("img/out_03.ppm");
 
     /* Simple rendering loop */
     fp << "P3\n" << image_width << ' ' << image_height << "\n255\n";
@@ -39,7 +49,12 @@ int main(void)
         std::cerr << "\rScanlines remaining: " << j << ' ' << std::flush;
 
         for (i = 0; i < image_width; ++i) {
-            color c((float)i/(image_width - 1), (float)j / (image_height - 1), 0.25);
+            float u = (float)i / (image_width - 1);
+            float v = (float)j / (image_height - 1);
+            
+            ray r(origin, lower_left_corner + u * horizontal + v * vertical - origin);
+
+            color c = ray_color(r);
             write_color(fp, c);
         }
     }

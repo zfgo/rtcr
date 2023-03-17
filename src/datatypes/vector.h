@@ -219,4 +219,19 @@ vector random_unit_vector()
     return normalize(random_in_unit_sphere());
 }
 
+/* return a vector using random hemispherical scattering
+ */
+vector random_in_hemisphere(const vector& normal)
+{
+    vector in_unit_sphere = random_in_unit_sphere();
+    if (dot(in_unit_sphere, normal) > 0.0) {
+        // in the same hemisphere as the normal
+        return in_unit_sphere;
+    }
+    else {
+        // in the opposite hemisphere as the normal
+        return -in_unit_sphere;
+    }
+}
+
 #endif /* _VECTOR_H_ */

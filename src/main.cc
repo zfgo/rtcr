@@ -22,6 +22,10 @@ bool hit_sphere(const point3& center, double radius, const ray& r)
 
 color ray_color(const ray& r)
 {
+    if (hit_sphere(point3(0.0, 0.0, -1.0), 0.5, r)) {
+        // if the ray hits the sphere, return red, else return the blue gradient
+        return color(1.0, 0.0, 0.0);
+    }
     vec3 unit_dir = normalize(r.direction());
     float t = 0.5 * (unit_dir.y() + 1.0);
 

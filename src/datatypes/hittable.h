@@ -1,8 +1,9 @@
 #ifndef _HITTABLE_H_
 #define _HITTABLE_H_
 
-#include "datatypes/ray.h"
-#include "datatypes/vector.h"
+#include "include.h"
+
+class material; // forward declaration
 
 /* structure for each hit record (where a ray bounces off of an object.
  * The hit point, normal at that point, and time need to be recorded.
@@ -10,6 +11,7 @@
 struct hit_record {
     point3 p;
     vec3 normal;
+    shared_ptr<material> mat_ptr;
     float t;
     bool front_face;
 

@@ -52,7 +52,6 @@ int main(void)
     const float aspect_ratio = 16.0 / 9.0; // same aspect ration as a 1080p or 1440p screen
     const int image_width = 1920;
     const int image_height = static_cast<int>(image_width / aspect_ratio);
-    std::cout << image_height << '\n';
     const int samples_per_pix = 100;
     const int max_depth = 16;
 
@@ -64,7 +63,7 @@ int main(void)
     auto material_right = make_shared<lambertian>(color(1.0, 0.0, 0.0));
 
     world.add(make_shared<sphere>(point3(-R, 0.0, -1.0),  R, material_left));
-    world.add(make_shared<sphere>(point3(-R, 0.0, -1.0), R, material_right));
+    world.add(make_shared<sphere>(point3(R, 0.0, -1.0), R, material_right));
 
     /* set up Camera */
     camera cam(90.0, aspect_ratio);

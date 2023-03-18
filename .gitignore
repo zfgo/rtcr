@@ -4,6 +4,9 @@
 !/**/
 !*.*
 
+# exclude frames directory
+frames/
+
 # exclude vim .swp files
 *.swp
 

@@ -201,8 +201,8 @@ int main(void)
         /* set up Camera */
         camera cam = get_cam_for_4_spheres(
             aspect_ratio, 
-            lookfrom_a+lookfrom_increment,
-            vfov_a+vfov_increment
+            lookfrom_a+(lookfrom_increment*n),
+            vfov_a+(vfov_increment*n)
         );
 
         /* set up output file */

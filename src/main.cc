@@ -186,18 +186,18 @@ int main(void)
     /* set up World */
     hittable_list world = four_spheres_scene();
 
-    const int n_imgs = 100;
+    const int n_imgs = 200;
     const float vfov_a = 20.0;
     const float vfov_b = 70.0;
     const float vfov_diff = vfov_b - vfov_a;
     const float vfov_increment = vfov_diff / n_imgs;
     const point3 lookfrom_a(4.0, 0.0, 2.75);
-    const point3 lookfrom_b(1.5, 0.0, 1.03125);
+    const point3 lookfrom_b(0.6, 0.0, 0.4125);
     const point3 lookfrom_diff = lookfrom_b - lookfrom_a;
     const point3 lookfrom_increment = lookfrom_diff / n_imgs;
 
     for (int n = 0; n < n_imgs; ++n) {
-        std::cout << "working on frame " << n << '\n';
+        std::cout << "\nworking on frame " << n << '\n';
         /* set up Camera */
         camera cam = get_cam_for_4_spheres(
             aspect_ratio, 

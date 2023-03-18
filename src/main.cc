@@ -7,6 +7,7 @@
 
 #include <iostream>
 #include <fstream>
+#include <string>
 
 float lerp(float f_a, float f_b, float a, float b, float x)
 {
@@ -128,17 +129,17 @@ camera get_cam_for_random_scene(float aspect_ratio)
     return cam;
 }
 
-camera get_cam_for_4_spheres(float aspect_ratio)
+camera get_cam_for_4_spheres(float aspect_ratio, point3 lookfrom, float vfov)
 {
     /* set up Camera */
     //point3 lookfrom(4.0, 0.0, 2.75);
-    point3 lookfrom(1.5, 0.0, 1.03125);
+    //point3 lookfrom(1.5, 0.0, 1.03125);
     point3 lookat(0.0, 0.0, 0.0);
     vec3 vup(0.0, 1.0, 0.0);
     float dist_to_focus = 10.0;
     float aperture = 0.0;
     //float vfov = 20.0;
-    float vfov = 70.0;
+    //float vfov = 70.0;
 
     camera cam(
         lookfrom,
@@ -185,40 +186,61 @@ int main(void)
     /* set up World */
     hittable_list world = four_spheres_scene();
 
-    /* set up Camera */
-    camera cam = get_cam_for_4_spheres(aspect_ratio);
+    const int n_imgs = 100;
+    const float vfov_a = 20.0;
+    const float vfov_b = 70.0;
+    const float vfov_diff = vfov_b - vfov_a;
+    const float vfov_increment = vfov_diff / n_imgs;
+    const point3 lookfrom_a(4.0, 0.0, 2.75);
+    const point3 lookfrom_b(1.5, 0.0, 1.03125);
+    const point3 lookfrom_diff = lookfrom_b - lookfrom_a;
+    const point3 lookfrom_increment = lookfrom_diff / n_imgs;
 
-    /* set up output file */
-    std::ofstream fp("img/out_32.ppm");
+    for (int n = 0; n < n_imgs; ++n) {
+        std::cout << "working on frame " << n << '\n';
+        /* set up Camera */
+        camera cam = get_cam_for_4_spheres(
+            aspect_ratio, 
+            lookfrom_a+lookfrom_increment,
+            vfov_a+vfov_increment
+        );
 
-    /* Simple rendering loop */
-    fp << "P3\n" << image_width << ' ' << image_height << "\n255\n";
+        /* set up output file */
+        std::string fname = "frames/out_";
+        fname += std::to_string(n);
+        fname += ".ppm";
 
-    for (j = image_height-1; j >= 0; --j) {
+        std::ofstream fp(fname);
 
-        /* \r denotes a carriage return,
-         * std::flush flushes the output sequence os
-         */
-        std::cerr << "\rScanlines remaining: " << j << ' ' << std::flush;
+        /* Simple rendering loop */
+        fp << "P3\n" << image_width << ' ' << image_height << "\n255\n";
 
-        for (i = 0; i < image_width; ++i) {
-            color c(0.0, 0.0, 0.0);
+        for (j = image_height-1; j >= 0; --j) {
 
-            for (s = 0; s < samples_per_pix; ++s) {
-                float u = ((float)i + random_float()) / (image_width - 1);
-                float v = ((float)j + random_float()) / (image_height - 1);
-                
-                // get the ray from the camera
-                ray r = cam.get_ray(u, v);
+            /* \r denotes a carriage return,
+             * std::flush flushes the output sequence os
+             */
+            std::cerr << "\rScanlines remaining: " << j << ' ' << std::flush;
 
-                // accumulate color
-                c += ray_color(r, world, max_depth);
+            for (i = 0; i < image_width; ++i) {
+                color c(0.0, 0.0, 0.0);
+
+                for (s = 0; s < samples_per_pix; ++s) {
+                    float u = ((float)i + random_float()) / (image_width - 1);
+                    float v = ((float)j + random_float()) / (image_height - 1);
+                    
+                    // get the ray from the camera
+                    ray r = cam.get_ray(u, v);
+
+                    // accumulate color
+                    c += ray_color(r, world, max_depth);
+                }
+                write_color(fp, c, samples_per_pix);
             }
-            write_color(fp, c, samples_per_pix);
         }
+        fp.close();
     }
 
-    fp.close();
     std::cerr << "\nDone.\n";
 
     return 0;

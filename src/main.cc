@@ -8,6 +8,19 @@
 #include <iostream>
 #include <fstream>
 
+float lerp(float f_a, float f_b, float a, float b, float x)
+{
+    float t, f_x;
+
+    if (a == b)
+        return f_a;
+
+    t = (x - a) / (b - a);
+    f_x = f_a + (t * (f_b - f_a));
+
+    return f_x;
+}
+
 /* render each pixel by calculating its color
  */
 color ray_color(const ray& r, const hittable& world, int depth)
@@ -38,7 +51,8 @@ color ray_color(const ray& r, const hittable& world, int depth)
 
     vec3 unit_dir = normalize(r.direction());
     t = 0.5 * (unit_dir.y() + 1.0);
-    return (1.0 - t) * color(1.0, 1.0, 1.0) + t * color(0.5, 0.7, 1.0);
+    //return (1.0 - t) * color(1.0, 1.0, 1.0) + t * color(0.5, 0.7, 1.0);
+    return (1.0 - t) * color(1.0, 1.0, 1.0) + t * color(0.5, 0.1, 0.5);
 }
 
 hittable_list random_scene()
@@ -117,12 +131,14 @@ camera get_cam_for_random_scene(float aspect_ratio)
 camera get_cam_for_4_spheres(float aspect_ratio)
 {
     /* set up Camera */
-    point3 lookfrom(4.0, 0.0, 4.0);
+    //point3 lookfrom(4.0, 0.0, 2.75);
+    point3 lookfrom(1.5, 0.0, 1.03125);
     point3 lookat(0.0, 0.0, 0.0);
     vec3 vup(0.0, 1.0, 0.0);
     float dist_to_focus = 10.0;
     float aperture = 0.0;
-    float vfov = 20.0;
+    //float vfov = 20.0;
+    float vfov = 70.0;
 
     camera cam(
         lookfrom,
@@ -140,14 +156,14 @@ camera get_cam_for_4_spheres(float aspect_ratio)
 hittable_list four_spheres_scene()
 {
     hittable_list world;
-    auto sphere_mat = make_shared<metal>(color(0.9, 0.9, 0.9), 0.0);
+    auto sphere_mat = make_shared<metal>(color(0.7, 0.7, 0.7), 0.0);
     float radius = 1.0;
     float inv_sqrt2 = 1.0 / sqrt(2.0);
 
-    world.add(make_shared<sphere>(point3(1.0, 0.0, -inv_sqrt2), radius, sphere_mat));
-    world.add(make_shared<sphere>(point3(-1.0, 0.0, -inv_sqrt2), radius, sphere_mat));
-    world.add(make_shared<sphere>(point3(0.0, 1.0, inv_sqrt2), radius, sphere_mat));
-    world.add(make_shared<sphere>(point3(0.0, -1.0, inv_sqrt2), radius, sphere_mat));
+    world.add(make_shared<sphere>(point3( 1.0,  0.0, -inv_sqrt2), radius, sphere_mat));
+    world.add(make_shared<sphere>(point3(-1.0,  0.0, -inv_sqrt2), radius, sphere_mat));
+    world.add(make_shared<sphere>(point3( 0.0,  1.0,  inv_sqrt2), radius, sphere_mat));
+    world.add(make_shared<sphere>(point3( 0.0, -1.0,  inv_sqrt2), radius, sphere_mat));
 
     return world;
 }
@@ -160,7 +176,7 @@ int main(void)
      * 
      * As is, we should have a 1920x1080 pixel image
      */
-    const float aspect_ratio = 3.0 / 2.0; // same aspect ration as a 1080p or 1440p screen
+    const float aspect_ratio = 16.0 / 9.0; // same aspect ration as a 1080p or 1440p screen
     const int image_width = 1920;
     const int image_height = static_cast<int>(image_width / aspect_ratio);
     const int samples_per_pix = 256;
@@ -173,7 +189,7 @@ int main(void)
     camera cam = get_cam_for_4_spheres(aspect_ratio);
 
     /* set up output file */
-    std::ofstream fp("img/out_26.ppm");
+    std::ofstream fp("img/out_32.ppm");
 
     /* Simple rendering loop */
     fp << "P3\n" << image_width << ' ' << image_height << "\n255\n";

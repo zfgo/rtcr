@@ -85,37 +85,14 @@ hittable_list random_scene()
     auto mat2 = make_shared<lambertian>(color(0.4, 0.2, 0.1));
     world.add(make_shared<sphere>(point3(-4.0, 1.0, 0.0), 1.0, mat2));
 
-    auto mat3 = make_shared<metal>(color(0.8, 0.2, 0.1), 0.0);
+    auto mat3 = make_shared<metal>(color(0.0, 0.0, 0.0), 0.0);
     world.add(make_shared<sphere>(point3(4.0, 1.0, 0.0), 1.0, mat3));
 
     return world;
 }
 
-hittable_list four_spheres_scene()
+camera get_cam_for_random_scene(float aspect_ratio)
 {
-    // TODO
-    hittable_list world;
-
-    return world;
-}
-
-int main(void)
-{
-    int i, j, s;
-
-    /* set up Image 
-     * 
-     * As is, we should have a 1920x1080 pixel image
-     */
-    const float aspect_ratio = 3.0 / 2.0; // same aspect ration as a 1080p or 1440p screen
-    const int image_width = 1920;
-    const int image_height = static_cast<int>(image_width / aspect_ratio);
-    const int samples_per_pix = 256;
-    const int max_depth = 16;
-
-    /* set up World */
-    hittable_list world = random_scene();
-
     /* set up Camera */
     point3 lookfrom(13.0, 3.0, 3.0);
     point3 lookat(0.0, 0.0, 0.0);
@@ -134,8 +111,45 @@ int main(void)
         dist_to_focus
     );
 
+    return cam;
+}
+
+
+hittable_list four_spheres_scene()
+{
+    hittable_list world;
+    auto sphere_mat = make_shared<metal>(color(0.9, 0.9, 0.9), 0.0);
+
+    world.add(make_shared<sphere>(point3(0.0, 0.0, 0.0), 1.0, sphere_mat));
+    world.add(make_shared<sphere>(point3(2.0, 0.0, 0.0), 1.0, sphere_mat));
+    world.add(make_shared<sphere>(point3(1.0, sqrt(3.0), 0.0), 1.0, sphere_mat));
+    world.add(make_shared<sphere>(point3(1.0, sqrt(3.0)/2.0, 1.5), 1.0, sphere_mat));
+
+    return world;
+}
+
+int main(void)
+{
+    int i, j, s;
+
+    /* set up Image 
+     * 
+     * As is, we should have a 1920x1080 pixel image
+     */
+    const float aspect_ratio = 3.0 / 2.0; // same aspect ration as a 1080p or 1440p screen
+    const int image_width = 200;
+    const int image_height = static_cast<int>(image_width / aspect_ratio);
+    const int samples_per_pix = 256;
+    const int max_depth = 16;
+
+    /* set up World */
+    hittable_list world = four_spheres_scene();
+
+    /* set up Camera */
+    camera cam = get_cam_for_random_scene(aspect_ratio);
+
     /* set up output file */
-    std::ofstream fp("img/out_25.ppm");
+    std::ofstream fp("img/out_26.ppm");
 
     /* Simple rendering loop */
     fp << "P3\n" << image_width << ' ' << image_height << "\n255\n";

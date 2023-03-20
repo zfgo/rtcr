@@ -53,7 +53,7 @@ color ray_color(const ray& r, const hittable& world, int depth)
     vec3 unit_dir = normalize(r.direction());
     t = 0.5 * (unit_dir.y() + 1.0);
     //return (1.0 - t) * color(1.0, 1.0, 1.0) + t * color(0.5, 0.7, 1.0);
-    return (1.0 - t) * color(0.1, 1.0, 1.0) + t * color(0.5, 0.1, 0.5);
+    return (1.0 - t) * color(0.02, 0.1, 0.6) + t * color(0.5, 0.1, 0.5);
 }
 
 hittable_list random_scene()
@@ -188,7 +188,7 @@ int main(void)
 
     const int n_imgs = 200;
     const float vfov_a = 20.0;
-    const float vfov_b = 70.0;
+    const float vfov_b = 90.0;
     const float vfov_diff = vfov_b - vfov_a;
     const float vfov_increment = vfov_diff / n_imgs;
     const point3 lookfrom_a(4.0, 0.0, 2.75);
@@ -243,9 +243,9 @@ int main(void)
     }
     */
 
-    int n = 175;
+    int n = 199;
 
-    std::cout << "\nworking on frame " << n << '\n';
+    std::cout << "\nworking on image " << n << '\n';
     // set up Camera
     camera cam = get_cam_for_4_spheres(
         aspect_ratio, 
@@ -254,7 +254,7 @@ int main(void)
     );
 
     // set up output file
-    std::string fname = "img/out_33";
+    std::string fname = "img/out_34";
     fname += ".ppm";
 
     std::ofstream fp(fname);

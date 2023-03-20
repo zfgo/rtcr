@@ -178,7 +178,7 @@ int main(void)
      * As is, we should have a 1920x1080 pixel image
      */
     const float aspect_ratio = 16.0 / 9.0; // same aspect ration as a 1080p or 1440p screen
-    const int image_width = 200;
+    const int image_width = 2560; // use 2560 for 2560x1440
     const int image_height = static_cast<int>(image_width / aspect_ratio);
     const int samples_per_pix = 256;
     const int max_depth = 32;

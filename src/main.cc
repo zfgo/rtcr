@@ -53,7 +53,7 @@ color ray_color(const ray& r, const hittable& world, int depth)
     vec3 unit_dir = normalize(r.direction());
     t = 0.5 * (unit_dir.y() + 1.0);
     //return (1.0 - t) * color(1.0, 1.0, 1.0) + t * color(0.5, 0.7, 1.0);
-    return (1.0 - t) * color(1.0, 1.0, 1.0) + t * color(0.5, 0.1, 0.5);
+    return (1.0 - t) * color(0.1, 1.0, 1.0) + t * color(0.5, 0.1, 0.5);
 }
 
 hittable_list random_scene()
@@ -157,7 +157,7 @@ camera get_cam_for_4_spheres(float aspect_ratio, point3 lookfrom, float vfov)
 hittable_list four_spheres_scene()
 {
     hittable_list world;
-    auto sphere_mat = make_shared<metal>(color(0.7, 0.7, 0.7), 0.0);
+    auto sphere_mat = make_shared<metal>(color(0.8, 0.8, 0.8), 0.0);
     float radius = 1.0;
     float inv_sqrt2 = 1.0 / sqrt(2.0);
 
@@ -178,10 +178,10 @@ int main(void)
      * As is, we should have a 1920x1080 pixel image
      */
     const float aspect_ratio = 16.0 / 9.0; // same aspect ration as a 1080p or 1440p screen
-    const int image_width = 1920;
+    const int image_width = 200;
     const int image_height = static_cast<int>(image_width / aspect_ratio);
     const int samples_per_pix = 256;
-    const int max_depth = 16;
+    const int max_depth = 32;
 
     /* set up World */
     hittable_list world = four_spheres_scene();
@@ -196,30 +196,31 @@ int main(void)
     const point3 lookfrom_diff = lookfrom_b - lookfrom_a;
     const point3 lookfrom_increment = lookfrom_diff / n_imgs;
 
-    for (int n = 0; n < n_imgs; ++n) {
+    /*
+    // code for generating 200 movie frames
+    for (int n = 175; n < n_imgs; ++n) {
         std::cout << "\nworking on frame " << n << '\n';
-        /* set up Camera */
+        // set up Camera
         camera cam = get_cam_for_4_spheres(
             aspect_ratio, 
             lookfrom_a+(lookfrom_increment*n),
             vfov_a+(vfov_increment*n)
         );
 
-        /* set up output file */
+        // set up output file
         std::string fname = "frames/out_";
         fname += std::to_string(n);
         fname += ".ppm";
 
         std::ofstream fp(fname);
 
-        /* Simple rendering loop */
+        // Simple rendering loop
         fp << "P3\n" << image_width << ' ' << image_height << "\n255\n";
 
         for (j = image_height-1; j >= 0; --j) {
 
-            /* \r denotes a carriage return,
-             * std::flush flushes the output sequence os
-             */
+            // \r denotes a carriage return,
+            // std::flush flushes the output sequence os
             std::cerr << "\rScanlines remaining: " << j << ' ' << std::flush;
 
             for (i = 0; i < image_width; ++i) {
@@ -240,7 +241,50 @@ int main(void)
         }
         fp.close();
     }
+    */
 
+    int n = 175;
+
+    std::cout << "\nworking on frame " << n << '\n';
+    // set up Camera
+    camera cam = get_cam_for_4_spheres(
+        aspect_ratio, 
+        lookfrom_a+(lookfrom_increment*n),
+        vfov_a+(vfov_increment*n)
+    );
+
+    // set up output file
+    std::string fname = "img/out_33";
+    fname += ".ppm";
+
+    std::ofstream fp(fname);
+
+    // Simple rendering loop
+    fp << "P3\n" << image_width << ' ' << image_height << "\n255\n";
+
+    for (j = image_height-1; j >= 0; --j) {
+
+        // \r denotes a carriage return,
+        // std::flush flushes the output sequence os
+        std::cerr << "\rScanlines remaining: " << j << ' ' << std::flush;
+
+        for (i = 0; i < image_width; ++i) {
+            color c(0.0, 0.0, 0.0);
+
+            for (s = 0; s < samples_per_pix; ++s) {
+                float u = ((float)i + random_float()) / (image_width - 1);
+                float v = ((float)j + random_float()) / (image_height - 1);
+                
+                // get the ray from the camera
+                ray r = cam.get_ray(u, v);
+
+                // accumulate color
+                c += ray_color(r, world, max_depth);
+            }
+            write_color(fp, c, samples_per_pix);
+        }
+    }
+    fp.close();
     std::cerr << "\nDone.\n";
 
     return 0;

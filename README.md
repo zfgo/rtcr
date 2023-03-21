@@ -86,8 +86,9 @@ Yes, I did meet (most of) my goals:
 - Sampling: Multiple samples per pixel were implemented, this allowed me
   to reduce noise in the images and have some form of anti-aliasing.
 
-Overall, I am proud of what I have made. Even with the tutorials that I
-found, I still wanted to understand all the code I was writing, and I
-would say that I put in at least 20 hours just for coding and
-understanding the math behind the code (as well as many additional hours
-spent rendering the frames for the movie).
+Overall, I am proud of what I have made. There is plenty of information
+fo the internet about creating ray tracers, and even with the resources and
+tutorials that I found, I still wanted to understand all the code I was
+writing. And I would say that I put in at least 20 hours just in coding
+and understanding the math behind the code (as well as many additional
+hours spent rendering the frames for the videos I made).
